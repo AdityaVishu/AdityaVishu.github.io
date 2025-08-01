@@ -209,7 +209,7 @@ function handleSessionEnd() {
 function playAlarm() {
     if (soundOn) {
         try {
-            const audio = new Audio('alarm.mp3');
+            const audio = new Audio('alarm.mp3'); // Corrected line
             audio.play();
         } catch (e) {}
     }
