@@ -138,31 +138,52 @@
             background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
         }
         body.dark-mode {
-            background: #181c1f !important;
-            color: #eee;
+            background: #101214 !important;
+            color: #f5f7fa;
         }
         .settings-bar {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 12px;
+            left: 12px;
             z-index: 10;
             display: flex;
-            gap: 10px;
+            gap: 6px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            padding: 4px 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            align-items: center;
         }
         .settings-bar button, .settings-bar select {
             font-size: 18px;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
             border: none;
             background: #fff;
             color: #222;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            box-shadow: none;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, color 0.2s;
         }
         .settings-bar button:hover, .settings-bar select:hover {
             background: #69d5dd;
             color: #000;
+        }
+        .settings-bar select {
+            min-width: 90px;
+            font-size: 15px;
+        }
+        body.dark-mode .settings-bar {
+            background: rgba(24,28,31,0.95);
+        }
+        body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
+            background: #23272b;
+            color: #f5f7fa;
+            border: 1px solid #444;
+        }
+        body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:hover {
+            background: #69d5dd;
+            color: #101214;
         }
         .progress-circle {
             position: relative;
@@ -183,8 +204,8 @@
             letter-spacing: 2px;
         }
         body.dark-mode .timer {
-            background: rgba(30,34,38,0.98);
-            color: #eee;
+            background: rgba(24,28,31,0.98);
+            color: #f5f7fa;
             box-shadow: 0 4px 24px rgba(0,0,0,0.38);
         }
         body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
@@ -192,16 +213,18 @@
             color: #eee;
         }
         body.dark-mode .buttons button, body.dark-mode .set-timer button, body.dark-mode .custom-durations button {
-            color: #eee;
-            border-color: #eee;
+            color: #f5f7fa;
+            border-color: #69d5dd;
+            background: #23272b;
         }
         body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover {
             background: #69d5dd;
-            color: #000;
+            color: #101214;
         }
         body.dark-mode .mode-buttons button {
-            border-color: #eee;
-            color: #eee;
+            border-color: #69d5dd;
+            color: #f5f7fa;
+            background: #23272b;
         }
         body.dark-mode .mode-buttons button:focus {
             outline: 2px solid #69d5dd;
