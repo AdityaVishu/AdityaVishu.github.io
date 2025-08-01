@@ -1,26 +1,43 @@
+/* --- CSS Variables for Theme --- */
+:root {
+    --color-bg: #e0e7ef;
+    --color-bg2: #b6c6e2;
+    --color-bg3: #f5f7fa;
+    --color-accent: #69d5dd;
+    --color-dark: #23272b;
+    --color-dark2: #2d3848;
+    --color-light: #fff;
+    --color-text: #222;
+    --color-text-light: #e0e6f7;
+    --color-shadow: rgba(0,0,0,0.18);
+    --color-shadow-hover: rgba(0,0,0,0.22);
+    --color-border: #69d5dd;
+    --color-quote: #69d5dd;
+}
 body {
     font-family: 'Roboto', Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #e0e7ef, #b6c6e2 80%, #f5f7fa 100%);
+    background: linear-gradient(135deg, var(--color-bg), var(--color-bg2) 80%, var(--color-bg3) 100%);
     margin: 0;
+    transition: background 0.3s;
 }
 .timer {
     text-align: center;
     background-color: rgba(255,255,255,0.98);
     padding: 24px 12px 18px 12px;
     border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    box-shadow: 0 4px 24px var(--color-shadow);
     min-width: 320px;
     max-width: 98vw;
     width: 350px;
     margin: 0 auto;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s, background 0.3s;
 }
 .timer:hover {
-    box-shadow: 0 6px 32px rgba(0,0,0,0.22);
+    box-shadow: 0 6px 32px var(--color-shadow-hover);
 }
 .fullscreen {
     text-align: right;
@@ -28,10 +45,11 @@ body {
 .time {
     font-size: 64px;
     margin-bottom: 20px;
-    color: #222;
+    color: var(--color-text);
     font-weight: bold;
     letter-spacing: 2px;
     text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: color 0.2s;
 }
 .buttons {
     display: flex;
@@ -40,33 +58,37 @@ body {
     margin: 8px 0 8px 0;
 }
 .buttons button {
-    background-color: #f5f7fa;
-    border: #69d5dd solid 2px;
+    background-color: var(--color-bg3);
+    border: var(--color-border) solid 2px;
     border-radius: 50%;
-    color: #222;
+    color: var(--color-text);
     font-size: 20px;
     width: 44px;
     height: 44px;
     margin: 0 2px;
-    transition: background 0.2s, color 0.2s, border 0.2s;
+    transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
+    outline: none;
 }
-.buttons button:hover {
-    background-color: #69d5dd;
+.buttons button:hover, .buttons button:focus-visible {
+    background-color: var(--color-accent);
     color: #fff;
-    border: #69d5dd solid 2px;
+    border: var(--color-border) solid 2px;
+    box-shadow: 0 0 0 2px var(--color-accent), 0 2px 8px rgba(0,0,0,0.10);
 }
 .set-timer button, .custom-durations button {
-    background: #69d5dd;
+    background: var(--color-accent);
     color: #000;
     font-weight: bold;
     border-radius: 5px;
     border: none;
     padding: 7px 14px;
     transition: background 0.2s, color 0.2s;
+    outline: none;
 }
-.set-timer button:hover, .custom-durations button:hover {
+.set-timer button:hover, .custom-durations button:hover, .set-timer button:focus-visible, .custom-durations button:focus-visible {
     background: #000;
     color: #fff;
+    box-shadow: 0 0 0 2px var(--color-accent);
 }
 .mode-buttons {
     margin-bottom: 10px;
@@ -78,11 +100,11 @@ body {
     font-size: 20px;
     padding: 6px 12px;
     margin: 0 2px 10px 2px;
-    border: 2px solid #69d5dd;
+    border: 2px solid var(--color-border);
     border-radius: 50%;
-    background: #f5f7fa;
-    color: #222;
-    transition: background 0.2s, color 0.2s, border 0.2s;
+    background: var(--color-bg3);
+    color: var(--color-text);
+    transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
     width: 44px;
     height: 44px;
     display: flex;
@@ -91,41 +113,65 @@ body {
     font-weight: bold;
     outline: none;
 }
-.mode-buttons button.active, .mode-buttons button:focus {
-    background: #69d5dd;
+.mode-buttons button.active, .mode-buttons button:focus-visible {
+    background: var(--color-accent);
     color: #fff;
-    border-color: #69d5dd;
-    outline: 2px solid #69d5dd;
+    border-color: var(--color-border);
+    outline: 2px solid var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent);
 }
 body.dark-mode {
-    color: #e0e6f7;
-    background: linear-gradient(135deg, #23272b 0%, #2d3848 100%) !important;
+    color: var(--color-text-light);
+    background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark2) 100%) !important;
+    transition: background 0.3s;
 }
 body.dark-mode .timer {
     background: rgba(30,34,38,0.98);
-    color: #e0e6f7;
+    color: var(--color-text-light);
     box-shadow: 0 4px 24px rgba(0,0,0,0.38);
 }
-body.dark-mode .buttons button, body.dark-mode .set-timer button, body-dark-mode .custom-durations button {
-    color: #e0e6f7;
-    border-color: #69d5dd;
-    background: #23272b;
+body.dark-mode .buttons button, body.dark-mode .set-timer button, body.dark-mode .custom-durations button {
+    color: var(--color-text-light);
+    border-color: var(--color-border);
+    background: var(--color-dark);
 }
-body.dark-mode .buttons button:hover, body-dark-mode .set-timer button:hover, body-dark-mode .custom-durations button:hover {
-    background: #69d5dd;
+body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover, body.dark-mode .buttons button:focus-visible, body.dark-mode .set-timer button:focus-visible, body.dark-mode .custom-durations button:focus-visible {
+    background: var(--color-accent);
     color: #101214;
+    box-shadow: 0 0 0 2px var(--color-accent);
 }
 body.dark-mode .mode-buttons button {
-    background: #23272b;
-    color: #e0e6f7;
-    border-color: #69d5dd;
+    background: var(--color-dark);
+    color: var(--color-text-light);
+    border-color: var(--color-border);
 }
-body.dark-mode .mode-buttons button.active, body-dark-mode .mode-buttons button:focus {
-    background: #69d5dd;
+body.dark-mode .mode-buttons button.active, body.dark-mode .mode-buttons button:focus-visible {
+    background: var(--color-accent);
     color: #101214;
-    border-color: #69d5dd;
+    border-color: var(--color-border);
+    outline: 2px solid var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent);
 }
 /* Removed duplicate/old .set-timer, .custom-durations, .mode-buttons rules. See above for new modern rules. */
+@media (max-width: 600px) {
+    body {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 2vw;
+    }
+    .timer {
+        width: 98vw;
+        min-width: unset;
+        padding: 12px 2vw 12px 2vw;
+    }
+    .progress-circle {
+        width: 120px;
+        height: 120px;
+    }
+    .time {
+        font-size: 36px;
+    }
+}
 @media (orientation: landscape) {
     body {
         flex-direction: row;
@@ -175,15 +221,17 @@ body.dark-mode {
     padding: 4px 10px;
     border-radius: 6px;
     border: none;
-    background: #fff;
-    color: #222;
+    background: var(--color-light);
+    color: var(--color-text);
     box-shadow: none;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    outline: none;
 }
-.settings-bar button:hover, .settings-bar select:hover {
-    background: #69d5dd;
+.settings-bar button:hover, .settings-bar select:hover, .settings-bar button:focus-visible, .settings-bar select:focus-visible {
+    background: var(--color-accent);
     color: #000;
+    box-shadow: 0 0 0 2px var(--color-accent);
 }
 .settings-bar select {
     min-width: 90px;
@@ -193,19 +241,28 @@ body.dark-mode .settings-bar {
     background: rgba(24,28,31,0.95);
 }
 body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
-    background: #23272b;
-    color: #f5f7fa;
+    background: var(--color-dark);
+    color: var(--color-text-light);
     border: 1px solid #444;
 }
-body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:hover {
-    background: #69d5dd;
+body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:hover, body.dark-mode .settings-bar button:focus-visible, body.dark-mode .settings-bar select:focus-visible {
+    background: var(--color-accent);
     color: #101214;
+    box-shadow: 0 0 0 2px var(--color-accent);
 }
 .progress-circle {
     position: relative;
     width: 180px;
     height: 180px;
     margin: 0 auto 10px auto;
+    transition: width 0.2s, height 0.2s;
+}
+.progress-circle {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 10px auto;
+    transition: width 0.2s, height 0.2s;
 }
 .progress-circle .time {
     position: absolute;
@@ -218,6 +275,7 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
     width: 100%;
     text-align: center;
     letter-spacing: 2px;
+    transition: font-size 0.2s;
 .session-info {
     margin-bottom: 2px;
     font-size: 15px;
@@ -234,11 +292,12 @@ body.dark-mode .progress-info {
 .quote {
     margin-top: 10px;
     font-size: 15px;
-    color: #69d5dd;
+    color: var(--color-quote);
     font-style: italic;
     min-height: 22px;
     text-align: center;
     padding: 0 8px;
+    transition: color 0.2s;
 }
 /* --- Advanced Options --- */
 .advanced-options {
@@ -251,7 +310,7 @@ body.dark-mode .progress-info {
     color: #333;
 }
 .advanced-options input[type="checkbox"] {
-    accent-color: #69d5dd;
+    accent-color: var(--color-accent);
     margin-right: 3px;
 }
 .advanced-options input[type="text"] {
@@ -261,8 +320,9 @@ body.dark-mode .progress-info {
     border-radius: 5px;
 }
 body.dark-mode .advanced-options {
-    color: #f5f7fa;
+    color: var(--color-text-light);
 }
+/* --- Stats Bar --- */
 /* --- Stats Bar --- */
 .stats-bar {
     display: flex;
