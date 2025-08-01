@@ -122,8 +122,14 @@ body {
 }
 body.dark-mode {
     color: var(--color-text-light);
-    background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark2) 100%) !important;
+    background: #101214 !important;
     transition: background 0.3s;
+}
+body.dark-mode.bg-gradient,
+body.dark-mode.bg-forest,
+body.dark-mode.bg-ocean,
+body.dark-mode.bg-space {
+    background: #101214 !important;
 }
 body.dark-mode .timer {
     background: rgba(30,34,38,0.98);
@@ -200,9 +206,7 @@ body.bg-ocean {
 body.bg-space {
     background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
 }
-body.dark-mode {
-    color: #f5f7fa;
-}
+
 .settings-bar {
     position: absolute;
     top: 12px;
