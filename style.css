@@ -125,56 +125,7 @@ body.dark-mode .mode-buttons button.active, body-dark-mode .mode-buttons button:
     color: #101214;
     border-color: #69d5dd;
 }
-.set-timer {
-    margin-top: 20px;
-}
-.set-timer input {
-    font-size: 16px;
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-.set-timer button {
-    background-color: #000000;
-    color: white;
-}
-.set-timer button:hover {
-    background-color: #69d5dd;
-}
-.custom-durations {
-    margin-bottom: 10px;
-}
-.custom-durations input {
-    width: 90px;
-    font-size: 13px;
-    padding: 6px;
-    margin: 0 2px 8px 2px;
-    border: 1px solid #bbb;
-    border-radius: 6px;
-}
-.custom-durations button {
-    background: #69d5dd;
-    color: #000;
-    font-weight: bold;
-}
-.mode-buttons {
-    margin-bottom: 20px;
-}
-.mode-buttons button {
-    font-size: 14px;
-    padding: 8px 18px;
-    margin: 0 5px 10px 5px;
-    border: none;
-    border-radius: 20px;
-    background: transparent;
-    border: 2px solid #0e0e0e;
-    transition: background 0.3s, color 0.3s;
-    cursor: pointer;
-}
-.mode-buttons button:focus {
-    outline: 2px solid #69d5dd;
-}
+/* Removed duplicate/old .set-timer, .custom-durations, .mode-buttons rules. See above for new modern rules. */
 @media (orientation: landscape) {
     body {
         flex-direction: row;
