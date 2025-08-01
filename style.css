@@ -49,7 +49,7 @@ body {
     font-weight: bold;
     letter-spacing: 2px;
     text-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    transition: color 0.2s;
+    /* Removed invalid CSS line */
 }
 .buttons {
     display: flex;
