@@ -1,0 +1,264 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    margin: 0;
+}
+.timer {
+    text-align: center;
+    background-color: rgba(255,255,255,0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    transition: transform 0.3s;
+    min-width: 350px;
+    max-width: 95vw;
+}
+.timer:hover {
+    transform: scale(1.03);
+}
+.fullscreen {
+    text-align: right;
+}
+.time {
+    font-size: 130px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+.buttons button, .set-timer button, .custom-durations button {
+    font-size: 14px;
+    padding: 8px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: #0e0e0e;
+    transition: background-color 0.3s;
+}
+.buttons button {
+    background-color: transparent;
+    border: #0e0e0e solid 2px;
+    border-radius: 50px;
+}
+.buttons button:hover {
+    background-color: #69d5dd;
+    border: #69d5dd solid 2px;
+}
+.set-timer {
+    margin-top: 20px;
+}
+.set-timer input {
+    font-size: 16px;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.set-timer button {
+    background-color: #000000;
+    color: white;
+}
+.set-timer button:hover {
+    background-color: #69d5dd;
+}
+.custom-durations {
+    margin-bottom: 10px;
+}
+.custom-durations input {
+    width: 90px;
+    font-size: 13px;
+    padding: 6px;
+    margin: 0 2px 8px 2px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+}
+.custom-durations button {
+    background: #69d5dd;
+    color: #000;
+    font-weight: bold;
+}
+.mode-buttons {
+    margin-bottom: 20px;
+}
+.mode-buttons button {
+    font-size: 14px;
+    padding: 8px 18px;
+    margin: 0 5px 10px 5px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    border: 2px solid #0e0e0e;
+    transition: background 0.3s, color 0.3s;
+    cursor: pointer;
+}
+.mode-buttons button:focus {
+    outline: 2px solid #69d5dd;
+}
+@media (orientation: landscape) {
+    body {
+        flex-direction: row;
+    }
+    .timer {
+        width: 50%;
+    }
+}
+@media (orientation: portrait) {
+    body {
+        flex-direction: column;
+    }
+    .timer {
+        width: 80%;
+    }
+}
+body.bg-gradient {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2) !important;
+}
+body.bg-forest {
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
+}
+body.bg-ocean {
+    background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
+}
+body.bg-space {
+    background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
+}
+body.dark-mode {
+    color: #f5f7fa;
+}
+.settings-bar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 4px 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    align-items: center;
+}
+.settings-bar button, .settings-bar select {
+    font-size: 18px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: none;
+    background: #fff;
+    color: #222;
+    box-shadow: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.settings-bar button:hover, .settings-bar select:hover {
+    background: #69d5dd;
+    color: #000;
+}
+.settings-bar select {
+    min-width: 90px;
+    font-size: 15px;
+}
+body.dark-mode .settings-bar {
+    background: rgba(24,28,31,0.95);
+}
+body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
+    background: #23272b;
+    color: #f5f7fa;
+    border: 1px solid #444;
+}
+body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:hover {
+    background: #69d5dd;
+    color: #101214;
+}
+.progress-circle {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 10px auto;
+}
+.progress-circle .time {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    font-size: 48px;
+    color: #333;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 2px;
+.session-info {
+    margin-bottom: 2px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.progress-info {
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #888;
+}
+body.dark-mode .progress-info {
+    color: #b0b0b0;
+}
+.quote {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #69d5dd;
+    font-style: italic;
+    min-height: 22px;
+    text-align: center;
+    padding: 0 8px;
+}
+/* --- Advanced Options --- */
+.advanced-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    margin: 4px 0 8px 0;
+    color: #333;
+}
+.advanced-options input[type="checkbox"] {
+    accent-color: #69d5dd;
+    margin-right: 3px;
+}
+.advanced-options input[type="text"] {
+    font-size: 13px;
+    padding: 3px 6px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
+body.dark-mode .advanced-options {
+    color: #f5f7fa;
+}
+/* --- Stats Bar --- */
+.stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    font-size: 13px;
+    margin: 4px 0 8px 0;
+    color: #444;
+}
+body.dark-mode .stats-bar {
+    color: #e0e0e0;
+}
+    border-color: #69d5dd;
+    background: #23272b;
+}
+body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover {
+    background: #69d5dd;
+    color: #101214;
+}
+body.dark-mode .mode-buttons button {
+    border-color: #69d5dd;
+    color: #f5f7fa;
+    background: #23272b;
+}
+body.dark-mode .mode-buttons button:focus {
+    outline: 2px solid #69d5dd;
+}

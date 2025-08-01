@@ -4,511 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            margin: 0;
-        }
-        .timer {
-            text-align: center;
-            background-color: rgba(255,255,255,0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-            transition: transform 0.3s;
-            min-width: 350px;
-            max-width: 95vw;
-        }
-        .timer:hover {
-            transform: scale(1.03);
-        }
-        .fullscreen {
-            text-align: right;
-        }
-        .time {
-            font-size: 130px;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: bold;
-        }
-        .buttons button, .set-timer button, .custom-durations button {
-            font-size: 14px;
-            padding: 8px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            color: #0e0e0e;
-            transition: background-color 0.3s;
-        }
-        .buttons button {
-            background-color: transparent;
-            border: #0e0e0e solid 2px;
-            border-radius: 50px;
-        }
-        .buttons button:hover {
-            background-color: #69d5dd;
-            border: #69d5dd solid 2px;
-        }
-        .set-timer {
-            margin-top: 20px;
-        }
-        .set-timer input {
-            font-size: 16px;
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .set-timer button {
-            background-color: #000000;
-            color: white;
-        }
-        .set-timer button:hover {
-            background-color: #69d5dd;
-        }
-        .custom-durations {
-            margin-bottom: 10px;
-        }
-        .custom-durations input {
-            width: 90px;
-            font-size: 13px;
-            padding: 6px;
-            margin: 0 2px 8px 2px;
-            border: 1px solid #bbb;
-            border-radius: 6px;
-        }
-        .custom-durations button {
-            background: #69d5dd;
-            color: #000;
-            font-weight: bold;
-        }
-        .mode-buttons {
-            margin-bottom: 20px;
-        }
-        .mode-buttons button {
-            font-size: 14px;
-            padding: 8px 18px;
-            margin: 0 5px 10px 5px;
-            border: none;
-            border-radius: 20px;
-            background: transparent;
-            border: 2px solid #0e0e0e;
-            transition: background 0.3s, color 0.3s;
-            cursor: pointer;
-        }
-        .mode-buttons button:focus {
-            outline: 2px solid #69d5dd;
-        }
-
-        /* Media Queries for Responsive Design */
-
-        @media (orientation: landscape) {
-            body {
-                flex-direction: row;
-            }
-            .timer {
-                width: 50%;
-            }
-        }
-
-        @media (orientation: portrait) {
-            body {
-                flex-direction: column;
-            }
-            .timer {
-                width: 80%;
-            }
-        }
-        body.bg-gradient {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-        }
-        body.bg-forest {
-            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-        }
-        body.bg-ocean {
-            background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-        }
-        body.bg-space {
-            background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-        }
-        body.dark-mode {
-            background: #101214 !important;
-            color: #f5f7fa;
-        }
-        .settings-bar {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            z-index: 10;
-            display: flex;
-            gap: 6px;
-            background: rgba(255,255,255,0.7);
-            border-radius: 12px;
-            padding: 4px 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-            align-items: center;
-        }
-        .settings-bar button, .settings-bar select {
-            font-size: 18px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: none;
-            background: #fff;
-            color: #222;
-            box-shadow: none;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-        }
-        .settings-bar button:hover, .settings-bar select:hover {
-            background: #69d5dd;
-            color: #000;
-        }
-        .settings-bar select {
-            min-width: 90px;
-            font-size: 15px;
-        }
-        body.dark-mode .settings-bar {
-            background: rgba(24,28,31,0.95);
-        }
-        body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
-            background: #23272b;
-            color: #f5f7fa;
-            border: 1px solid #444;
-        }
-        body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:hover {
-            background: #69d5dd;
-            color: #101214;
-        }
-        .progress-circle {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 10px auto;
-        }
-        .progress-circle .time {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -55%);
-            font-size: 48px;
-            color: #333;
-            font-weight: bold;
-            width: 100%;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-        body.dark-mode .timer {
-            background: rgba(24,28,31,0.98);
-            color: #f5f7fa;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.38);
-        }
-        body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
-            background: #222;
-            color: #eee;
-        }
-        body.dark-mode .buttons button, body.dark-mode .set-timer button, body.dark-mode .custom-durations button {
-            color: #f5f7fa;
-            border-color: #69d5dd;
-            background: #23272b;
-        }
-        body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover {
-            background: #69d5dd;
-            color: #101214;
-        }
-        body.dark-mode .mode-buttons button {
-            border-color: #69d5dd;
-            color: #f5f7fa;
-            background: #23272b;
-        }
-        body.dark-mode .mode-buttons button:focus {
-            outline: 2px solid #69d5dd;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="settings-bar">
-        <button onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Toggle Dark Mode">🌙</button>
-        <select id="bgSelect" onchange="changeBackground()" aria-label="Select Background">
+    <div class="settings-bar" role="toolbar" aria-label="Settings">
+        <button onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+        <button onclick="toggleSound()" id="soundBtn" aria-label="Toggle Sound" title="Toggle Sound">🔊</button>
+        <select id="bgSelect" onchange="changeBackground()" aria-label="Select Background" title="Background">
             <option value="gradient">Gradient</option>
             <option value="forest">Forest</option>
             <option value="ocean">Ocean</option>
             <option value="space">Space</option>
         </select>
-        <button onclick="toggleSound()" id="soundBtn" aria-label="Toggle Sound">🔊</button>
+        <button onclick="toggleFullscreen()" id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen">⛶</button>
     </div>
     <div class="timer" aria-label="Pomodoro Timer">
-        <div id="quote" style="font-size:1.1em;margin-bottom:10px;color:#69d5dd;font-weight:bold;"></div>
-        <div class="fullscreen">
-            <img src="fullscreen-svgrepo-com.svg" onclick="toggleFullscreen()" width="20" height="20" alt="Toggle Fullscreen" tabindex="0" aria-label="Toggle Fullscreen">
+        <div class="mode-buttons" role="group" aria-label="Timer Modes">
+            <button id="pomodoroBtn" onclick="switchMode('pomodoro')" aria-label="Pomodoro">🍅</button>
+            <button id="shortBreakBtn" onclick="switchMode('shortBreak')" aria-label="Short Break">☕</button>
+            <button id="longBreakBtn" onclick="switchMode('longBreak')" aria-label="Long Break">🛌</button>
         </div>
-        <div class="mode-buttons">
-            <button id="pomodoroBtn" onclick="switchMode('pomodoro')" aria-label="Pomodoro Mode">Pomodoro</button>
-            <button id="shortBreakBtn" onclick="switchMode('shortBreak')" aria-label="Short Break Mode">Short Break</button>
-            <button id="longBreakBtn" onclick="switchMode('longBreak')" aria-label="Long Break Mode">Long Break</button>
+        <div class="progress-circle">
+            <svg width="180" height="180">
+                <circle cx="90" cy="90" r="80" stroke="#69d5dd" stroke-width="10" fill="none"/>
+                <circle id="progressBar" cx="90" cy="90" r="80" stroke="#0e0e0e" stroke-width="10" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="time" id="time" aria-live="polite">25:00</div>
+        </div>
+        <div id="sessionInfo" class="session-info" aria-live="polite">Mode: Pomodoro</div>
+        <div id="progress" class="progress-info"></div>
+        <div class="buttons" role="group" aria-label="Timer Controls">
+            <button onclick="startTimer()" aria-label="Start" title="Start">▶️</button>
+            <button onclick="pauseTimer()" aria-label="Pause" title="Pause">⏸️</button>
+            <button onclick="resumeTimer()" aria-label="Resume" title="Resume">⏵</button>
+            <button onclick="resetTimer()" aria-label="Reset" title="Reset">⟲</button>
+            <button onclick="skipSession()" aria-label="Skip" title="Skip Session">⏭️</button>
+        </div>
+        <div class="set-timer">
+            <input type="number" id="minutes" min="1" max="120" placeholder="Custom (min)" aria-label="Custom Minutes">
+            <button onclick="setCustomTimer()" aria-label="Set Custom Timer">Set</button>
         </div>
         <div class="custom-durations">
             <input type="number" id="pomodoroDuration" min="1" max="120" placeholder="Pomodoro (min)" aria-label="Pomodoro Duration">
             <input type="number" id="shortBreakDuration" min="1" max="60" placeholder="Short Break (min)" aria-label="Short Break Duration">
             <input type="number" id="longBreakDuration" min="1" max="60" placeholder="Long Break (min)" aria-label="Long Break Duration">
-            <button onclick="setCustomDurations()" aria-label="Set Custom Durations">Set</button>
+            <button onclick="setCustomDurations()" aria-label="Set Durations">Apply</button>
         </div>
-        <div class="progress-circle">
-            <svg width="180" height="180">
-                <circle cx="90" cy="90" r="80" stroke="#eee" stroke-width="12" fill="none"/>
-                <circle id="progressBar" cx="90" cy="90" r="80" stroke="#69d5dd" stroke-width="12" fill="none" stroke-linecap="round" transform="rotate(-90 90 90)"/>
-            </svg>
-            <div class="time" id="time" aria-live="polite">25:00</div>
+        <div class="advanced-options">
+            <label><input type="checkbox" id="autoStart" aria-label="Auto-start next session"> Auto-start next</label>
+            <label for="notifMsg" style="margin-left:10px;">Notification:</label>
+            <input type="text" id="notifMsg" maxlength="60" placeholder="Time's up!" aria-label="Notification Message" style="width:120px;">
         </div>
-        <div class="progress" id="progress" style="margin-bottom:10px;"></div>
-        <div class="buttons">
-            <button onclick="startTimer()" aria-label="Start Timer">Start</button>
-            <button onclick="pauseTimer()" aria-label="Pause Timer">Pause</button>
-            <button onclick="resumeTimer()" aria-label="Resume Timer">Resume</button>
-            <button onclick="stopTimer()" aria-label="Stop Timer">Stop</button>
-            <button onclick="resetTimer()" aria-label="Reset Timer">Reset</button>
+        <div class="stats-bar" aria-label="Session Stats">
+            <span id="statSessions">Sessions: 0</span>
+            <span id="statCycles">Cycles: 0</span>
+            <span id="statTime">Time: 0m</span>
         </div>
-        <div class="set-timer">
-            <input type="number" id="minutes" placeholder="Custom Minutes" min="1" aria-label="Custom Minutes">
-            <button onclick="setCustomTimer()" aria-label="Set Custom Timer">Set Timer</button>
-        </div>
-        <div id="sessionInfo" style="margin-top:15px; font-size:16px; color:#555;"></div>
+        <div id="quote" class="quote" aria-live="polite">Stay focused, stay productive!</div>
     </div>
-    <script>
-        // --- Theme and Background ---
-        function changeBackground() {
-            const bg = document.getElementById('bgSelect').value;
-            let body = document.body;
-            body.classList.remove('bg-forest', 'bg-ocean', 'bg-space', 'bg-gradient');
-            if (bg === 'forest') body.classList.add('bg-forest');
-            else if (bg === 'ocean') body.classList.add('bg-ocean');
-            else if (bg === 'space') body.classList.add('bg-space');
-            else body.classList.add('bg-gradient');
-        }
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            document.getElementById('darkModeBtn').textContent =
-                document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-        }
-
-        // --- Sound Toggle ---
-        let soundOn = true;
-        function toggleSound() {
-            soundOn = !soundOn;
-            document.getElementById('soundBtn').textContent = soundOn ? '🔊' : '🔇';
-        }
-
-        // --- Motivational Quotes ---
-        const quotes = [
-            "Stay focused, stay productive!",
-            "Small steps every day!",
-            "You are doing great!",
-            "Breaks help your brain!",
-            "Keep going, you're almost there!",
-            "Discipline is the bridge between goals and accomplishment.",
-            "Success is the sum of small efforts repeated."
-        ];
-        function showRandomQuote() {
-            document.getElementById('quote').textContent = quotes[Math.floor(Math.random()*quotes.length)];
-        }
-
-        // --- Pomodoro Logic ---
-        let MODES = {
-            pomodoro: { label: "Pomodoro", duration: 25 * 60 },
-            shortBreak: { label: "Short Break", duration: 5 * 60 },
-            longBreak: { label: "Long Break", duration: 15 * 60 }
-        };
-        let mode = 'pomodoro';
-        let timer, isRunning = false, isPaused = false, timeLeft = MODES[mode].duration;
-        let sessionCount = 0, cycleCount = 0;
-        const SESSIONS_PER_CYCLE = 4;
-
-        const timeElement = document.getElementById('time');
-        const progressElement = document.getElementById('progress');
-        const sessionInfo = document.getElementById('sessionInfo');
-        const modeButtons = {
-            pomodoro: document.getElementById('pomodoroBtn'),
-            shortBreak: document.getElementById('shortBreakBtn'),
-            longBreak: document.getElementById('longBreakBtn')
-        };
-        const progressBar = document.getElementById('progressBar');
-
-        function updateTimeDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            updateProgress();
-            updateCircle();
-        }
-
-        function updateProgress() {
-            if (mode === 'pomodoro') {
-                progressElement.textContent = `Session: ${sessionCount + 1} / ${SESSIONS_PER_CYCLE} | Cycle: ${cycleCount + 1}`;
-            } else {
-                progressElement.textContent = '';
-            }
-        }
-
-        function updateSessionInfo() {
-            sessionInfo.textContent = `Mode: ${MODES[mode].label}`;
-        }
-
-        function switchMode(newMode) {
-            stopTimer();
-            mode = newMode;
-            timeLeft = MODES[mode].duration;
-            updateTimeDisplay();
-            updateSessionInfo();
-            highlightModeButton();
-        }
-
-        function highlightModeButton() {
-            Object.keys(modeButtons).forEach(m => {
-                modeButtons[m].style.backgroundColor = (m === mode) ? "#69d5dd" : "transparent";
-                modeButtons[m].style.color = (m === mode) ? "#000" : "#0e0e0e";
-            });
-        }
-
-        function startTimer() {
-            if (!isRunning) {
-                isRunning = true;
-                isPaused = false;
-                timer = setInterval(() => {
-                    if (!isPaused) {
-                        if (timeLeft <= 0) {
-                            clearInterval(timer);
-                            isRunning = false;
-                            playAlarm();
-                            handleSessionEnd();
-                        } else {
-                            timeLeft--;
-                            updateTimeDisplay();
-                        }
-                    }
-                }, 1000);
-            }
-        }
-
-        function pauseTimer() {
-            isPaused = true;
-        }
-
-        function resumeTimer() {
-            if (isRunning && isPaused) {
-                isPaused = false;
-            }
-        }
-
-        function stopTimer() {
-            clearInterval(timer);
-            isRunning = false;
-            isPaused = false;
-        }
-
-        function resetTimer() {
-            stopTimer();
-            timeLeft = MODES[mode].duration;
-            updateTimeDisplay();
-        }
-
-        function setCustomTimer() {
-            const minutes = document.getElementById('minutes').value;
-            if (minutes && !isNaN(minutes) && minutes > 0) {
-                timeLeft = minutes * 60;
-                updateTimeDisplay();
-            } else {
-                alert('Please enter a valid number of minutes.');
-            }
-        }
-
-        function setCustomDurations() {
-            const pomo = parseInt(document.getElementById('pomodoroDuration').value, 10);
-            const shortB = parseInt(document.getElementById('shortBreakDuration').value, 10);
-            const longB = parseInt(document.getElementById('longBreakDuration').value, 10);
-            if (pomo > 0) MODES.pomodoro.duration = pomo * 60;
-            if (shortB > 0) MODES.shortBreak.duration = shortB * 60;
-            if (longB > 0) MODES.longBreak.duration = longB * 60;
-            timeLeft = MODES[mode].duration;
-            updateTimeDisplay();
-        }
-
-        function handleSessionEnd() {
-            if (mode === 'pomodoro') {
-                sessionCount++;
-                if (sessionCount % SESSIONS_PER_CYCLE === 0) {
-                    cycleCount++;
-                    switchMode('longBreak');
-                } else {
-                    switchMode('shortBreak');
-                }
-            } else {
-                if (mode === 'longBreak') {
-                    sessionCount = 0;
-                }
-                switchMode('pomodoro');
-            }
-            updateSessionInfo();
-            setTimeout(() => {
-                startTimer();
-            }, 1000);
-        }
-
-        function playAlarm() {
-            if (soundOn) {
-                try {
-                    const audio = new Audio('alarm.mp3');
-                    audio.play();
-                } catch (e) {}
-            }
-            if (Notification && Notification.permission === "granted") {
-                new Notification("Pomodoro Timer", { body: "Time's up!" });
-            }
-        }
-
-        // Circular progress bar
-        function updateCircle() {
-            const total = MODES[mode].duration;
-            const percent = 1 - timeLeft / total;
-            const radius = 80;
-            const circumference = 2 * Math.PI * radius;
-            progressBar.setAttribute('stroke-dasharray', circumference);
-            progressBar.setAttribute('stroke-dashoffset', circumference * (1 - percent));
-        }
-
-        // Request notification permission on load
-        if ("Notification" in window && Notification.permission !== "granted") {
-            Notification.requestPermission();
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        // Save/restore state
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('timeLeft', timeLeft);
-            localStorage.setItem('isRunning', isRunning);
-            localStorage.setItem('mode', mode);
-            localStorage.setItem('sessionCount', sessionCount);
-            localStorage.setItem('cycleCount', cycleCount);
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-            localStorage.setItem('bgSelect', document.getElementById('bgSelect').value);
-            localStorage.setItem('soundOn', soundOn);
-        });
-
-        window.addEventListener('load', () => {
-            // Restore theme/background
+    <script src="app.js"></script>
             if (localStorage.getItem('darkMode') === 'true') {
                 document.body.classList.add('dark-mode');
                 document.getElementById('darkModeBtn').textContent = '☀️';
