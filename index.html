@@ -70,6 +70,23 @@
         .set-timer button:hover {
             background-color: #69d5dd;
         }
+        .mode-buttons {
+            margin-bottom: 20px;
+        }
+        .mode-buttons button {
+            font-size: 14px;
+            padding: 8px 18px;
+            margin: 0 5px 10px 5px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            border: 2px solid #0e0e0e;
+            transition: background 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+        .mode-buttons button:focus {
+            outline: 2px solid #69d5dd;
+        }
 
         /* Media Queries for Responsive Design */
 
@@ -93,40 +110,84 @@
     </style>
 </head>
 <body>
-    <div class="timer">
+    <div class="timer" aria-label="Pomodoro Timer">
         <div class="fullscreen">
-            <img src="fullscreen-svgrepo-com.svg" onclick="toggleFullscreen()" width="20" height="20">
+            <img src="fullscreen-svgrepo-com.svg" onclick="toggleFullscreen()" width="20" height="20" alt="Toggle Fullscreen" tabindex="0" aria-label="Toggle Fullscreen">
         </div>
-        <div class="time" id="time">25:00</div>
+        <div class="mode-buttons">
+            <button id="pomodoroBtn" onclick="switchMode('pomodoro')" aria-label="Pomodoro Mode">Pomodoro</button>
+            <button id="shortBreakBtn" onclick="switchMode('shortBreak')" aria-label="Short Break Mode">Short Break</button>
+            <button id="longBreakBtn" onclick="switchMode('longBreak')" aria-label="Long Break Mode">Long Break</button>
+        </div>
+        <div class="time" id="time" aria-live="polite">25:00</div>
+        <div class="progress" id="progress" style="margin-bottom:10px;"></div>
         <div class="buttons">
-            <button onclick="startTimer()">Start</button>
-            <button onclick="stopTimer()">Stop</button>
-            <button onclick="resetTimer()">Reset</button>
+            <button onclick="startTimer()" aria-label="Start Timer">Start</button>
+            <button onclick="stopTimer()" aria-label="Stop Timer">Stop</button>
+            <button onclick="resetTimer()" aria-label="Reset Timer">Reset</button>
         </div>
         <div class="set-timer">
-            <input type="number" id="minutes" placeholder="Minutes">
-            <button onclick="setTimer()">Set Timer</button>
+            <input type="number" id="minutes" placeholder="Custom Minutes" min="1" aria-label="Custom Minutes">
+            <button onclick="setCustomTimer()" aria-label="Set Custom Timer">Set Timer</button>
         </div>
+        <div id="sessionInfo" style="margin-top:15px; font-size:16px; color:#555;"></div>
     </div>
 
     <script>
-        let timer, isRunning = false, timeLeft = 1500;
-        const timeElement = document.getElementById('time');
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('timeLeft', timeLeft);
-            localStorage.setItem('isRunning', isRunning);
-        });
+        // Default durations in seconds
+        const MODES = {
+            pomodoro: { label: "Pomodoro", duration: 25 * 60 },
+            shortBreak: { label: "Short Break", duration: 5 * 60 },
+            longBreak: { label: "Long Break", duration: 15 * 60 }
+        };
+        let mode = 'pomodoro';
+        let timer, isRunning = false, timeLeft = MODES[mode].duration;
+        let sessionCount = 0, cycleCount = 0;
+        const SESSIONS_PER_CYCLE = 4;
 
-        window.addEventListener('load', () => {
-            if (localStorage.getItem('timeLeft')) {
-                timeLeft = parseInt(localStorage.getItem('timeLeft'), 10);
-                isRunning = localStorage.getItem('isRunning') === 'true';
-                updateTimeDisplay();
-                if (isRunning) {
-                    startTimer();
-                }
+        const timeElement = document.getElementById('time');
+        const progressElement = document.getElementById('progress');
+        const sessionInfo = document.getElementById('sessionInfo');
+        const modeButtons = {
+            pomodoro: document.getElementById('pomodoroBtn'),
+            shortBreak: document.getElementById('shortBreakBtn'),
+            longBreak: document.getElementById('longBreakBtn')
+        };
+
+        function updateTimeDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            if (mode === 'pomodoro') {
+                progressElement.textContent = `Session: ${sessionCount + 1} / ${SESSIONS_PER_CYCLE} | Cycle: ${cycleCount + 1}`;
+            } else {
+                progressElement.textContent = '';
             }
-        });
+        }
+
+        function updateSessionInfo() {
+            sessionInfo.textContent = `Mode: ${MODES[mode].label}`;
+        }
+
+        function switchMode(newMode) {
+            stopTimer();
+            mode = newMode;
+            timeLeft = MODES[mode].duration;
+            updateTimeDisplay();
+            updateSessionInfo();
+            highlightModeButton();
+        }
+
+        function highlightModeButton() {
+            Object.keys(modeButtons).forEach(m => {
+                modeButtons[m].style.backgroundColor = (m === mode) ? "#69d5dd" : "transparent";
+                modeButtons[m].style.color = (m === mode) ? "#000" : "#0e0e0e";
+            });
+        }
 
         function startTimer() {
             if (!isRunning) {
@@ -134,10 +195,9 @@
                 timer = setInterval(() => {
                     if (timeLeft <= 0) {
                         clearInterval(timer);
-                        const audio = new Audio('alarm.mp3');
-                        audio.play();
-                        alert("Time's up!");
-                        resetTimer();
+                        isRunning = false;
+                        playAlarm();
+                        handleSessionEnd();
                     } else {
                         timeLeft--;
                         updateTimeDisplay();
@@ -152,20 +212,14 @@
         }
 
         function resetTimer() {
-            const minutes = document.getElementById('minutes').value;
-            clearInterval(timer);
-            isRunning = false;
-            if (minutes && !isNaN(minutes) && minutes >= 0) {
-                timeLeft = minutes * 60;
-            } else {
-                timeLeft = 1500;
-            }
+            stopTimer();
+            timeLeft = MODES[mode].duration;
             updateTimeDisplay();
         }
 
-        function setTimer() {
+        function setCustomTimer() {
             const minutes = document.getElementById('minutes').value;
-            if (minutes && !isNaN(minutes) && minutes >= 0) {
+            if (minutes && !isNaN(minutes) && minutes > 0) {
                 timeLeft = minutes * 60;
                 updateTimeDisplay();
             } else {
@@ -173,12 +227,46 @@
             }
         }
 
-        function updateTimeDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        function handleSessionEnd() {
+            if (mode === 'pomodoro') {
+                sessionCount++;
+                if (sessionCount % SESSIONS_PER_CYCLE === 0) {
+                    cycleCount++;
+                    switchMode('longBreak');
+                } else {
+                    switchMode('shortBreak');
+                }
+            } else {
+                if (mode === 'longBreak') {
+                    sessionCount = 0;
+                }
+                switchMode('pomodoro');
+            }
+            updateSessionInfo();
+            setTimeout(() => {
+                startTimer();
+            }, 1000);
         }
-        
+
+        function playAlarm() {
+            try {
+                const audio = new Audio('alarm.mp3');
+                audio.play();
+            } catch (e) {
+                // fallback
+                alert("Time's up!");
+            }
+            // Visual notification
+            if (Notification && Notification.permission === "granted") {
+                new Notification("Pomodoro Timer", { body: "Time's up!" });
+            }
+        }
+
+        // Request notification permission on load
+        if ("Notification" in window && Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
@@ -188,6 +276,35 @@
                 document.exitFullscreen();
             }
         }
+
+        // Save/restore state
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('timeLeft', timeLeft);
+            localStorage.setItem('isRunning', isRunning);
+            localStorage.setItem('mode', mode);
+            localStorage.setItem('sessionCount', sessionCount);
+            localStorage.setItem('cycleCount', cycleCount);
+        });
+
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('timeLeft')) {
+                timeLeft = parseInt(localStorage.getItem('timeLeft'), 10);
+                isRunning = localStorage.getItem('isRunning') === 'true';
+                mode = localStorage.getItem('mode') || 'pomodoro';
+                sessionCount = parseInt(localStorage.getItem('sessionCount'), 10) || 0;
+                cycleCount = parseInt(localStorage.getItem('cycleCount'), 10) || 0;
+                updateTimeDisplay();
+                updateSessionInfo();
+                highlightModeButton();
+                if (isRunning) {
+                    startTimer();
+                }
+            } else {
+                updateTimeDisplay();
+                updateSessionInfo();
+                highlightModeButton();
+            }
+        });
     </script>
 </body>
 </html>
