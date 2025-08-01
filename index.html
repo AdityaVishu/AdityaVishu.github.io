@@ -8,58 +8,61 @@
 </head>
 <body>
     <div class="settings-bar" role="toolbar" aria-label="Settings">
-        <button onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
-        <button onclick="toggleSound()" id="soundBtn" aria-label="Toggle Sound" title="Toggle Sound">🔊</button>
-        <select id="bgSelect" onchange="changeBackground()" aria-label="Select Background" title="Background">
+        <button id="darkModeBtn" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+        <button id="soundBtn" aria-label="Toggle Sound" title="Toggle Sound">🔊</button>
+        <select id="bgSelect" aria-label="Select Background" title="Background">
             <option value="gradient">Gradient</option>
             <option value="forest">Forest</option>
             <option value="ocean">Ocean</option>
             <option value="space">Space</option>
         </select>
-        <button onclick="toggleFullscreen()" id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen">⛶</button>
+        <button id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen">⛶</button>
     </div>
-    <div class="timer" aria-label="Pomodoro Timer">
-        <div class="mode-buttons" role="group" aria-label="Timer Modes">
-            <button id="pomodoroBtn" onclick="switchMode('pomodoro')" aria-label="Pomodoro">🍅</button>
-            <button id="shortBreakBtn" onclick="switchMode('shortBreak')" aria-label="Short Break">☕</button>
-            <button id="longBreakBtn" onclick="switchMode('longBreak')" aria-label="Long Break">🛌</button>
+    <main>
+        <div class="timer" aria-label="Pomodoro Timer">
+            <div class="mode-buttons" role="group" aria-label="Timer Modes">
+                <button id="pomodoroBtn" aria-label="Pomodoro">🍅</button>
+                <button id="shortBreakBtn" aria-label="Short Break">☕</button>
+                <button id="longBreakBtn" aria-label="Long Break">🛌</button>
+            </div>
+            <div class="progress-circle">
+                <svg width="180" height="180">
+                    <circle cx="90" cy="90" r="80" stroke="#69d5dd" stroke-width="10" fill="none"/>
+                    <circle id="progressBar" cx="90" cy="90" r="80" stroke="#0e0e0e" stroke-width="10" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div class="time" id="time" aria-live="polite">25:00</div>
+            </div>
+            <div id="sessionInfo" class="session-info" aria-live="polite">Mode: Pomodoro</div>
+            <div id="progress" class="progress-info"></div>
+            <div class="buttons" role="group" aria-label="Timer Controls">
+                <button id="startBtn" aria-label="Start" title="Start">▶️</button>
+                <button id="pauseBtn" aria-label="Pause" title="Pause">⏸️</button>
+                <button id="resumeBtn" aria-label="Resume" title="Resume">⏵</button>
+                <button id="resetBtn" aria-label="Reset" title="Reset">⟲</button>
+                <button id="skipBtn" aria-label="Skip" title="Skip Session">⏭️</button>
+            </div>
+            <div class="set-timer">
+                <input type="number" id="minutes" min="1" max="120" placeholder="Custom (min)" aria-label="Custom Minutes">
+                <button id="setCustomBtn" aria-label="Set Custom Timer">Set</button>
+            </div>
+            <div class="custom-durations">
+                <input type="number" id="pomodoroDuration" min="1" max="120" placeholder="Pomodoro (min)" aria-label="Pomodoro Duration">
+                <input type="number" id="shortBreakDuration" min="1" max="60" placeholder="Short Break (min)" aria-label="Short Break Duration">
+                <input type="number" id="longBreakDuration" min="1" max="60" placeholder="Long Break (min)" aria-label="Long Break Duration">
+                <button id="setDurationsBtn" aria-label="Set Durations">Apply</button>
+            </div>
+            <div class="advanced-options">
+                <label><input type="checkbox" id="autoStart" aria-label="Auto-start next session"> Auto-start next</label>
+                <label for="notifMsg" style="margin-left:10px;">Notification:</label>
+                <input type="text" id="notifMsg" maxlength="60" placeholder="Time's up!" aria-label="Notification Message" style="width:120px;">
+            </div>
+            <div class="stats-bar" aria-label="Session Stats">
+                <span id="statSessions">Sessions: 0</span>
+                <span id="statCycles">Cycles: 0</span>
+                <span id="statTime">Time: 0m</span>
+            </div>
+            <div id="quote" class="quote" aria-live="polite">Stay focused, stay productive!</div>
         </div>
-        <div class="progress-circle">
-            <svg width="180" height="180">
-                <circle cx="90" cy="90" r="80" stroke="#69d5dd" stroke-width="10" fill="none"/>
-                <circle id="progressBar" cx="90" cy="90" r="80" stroke="#0e0e0e" stroke-width="10" fill="none" stroke-linecap="round"/>
-            </svg>
-            <div class="time" id="time" aria-live="polite">25:00</div>
-        </div>
-        <div id="sessionInfo" class="session-info" aria-live="polite">Mode: Pomodoro</div>
-        <div id="progress" class="progress-info"></div>
-        <div class="buttons" role="group" aria-label="Timer Controls">
-            <button onclick="startTimer()" aria-label="Start" title="Start">▶️</button>
-            <button onclick="pauseTimer()" aria-label="Pause" title="Pause">⏸️</button>
-            <button onclick="resumeTimer()" aria-label="Resume" title="Resume">⏵</button>
-            <button onclick="resetTimer()" aria-label="Reset" title="Reset">⟲</button>
-            <button onclick="skipSession()" aria-label="Skip" title="Skip Session">⏭️</button>
-        </div>
-        <div class="set-timer">
-            <input type="number" id="minutes" min="1" max="120" placeholder="Custom (min)" aria-label="Custom Minutes">
-            <button onclick="setCustomTimer()" aria-label="Set Custom Timer">Set</button>
-        </div>
-        <div class="custom-durations">
-            <input type="number" id="pomodoroDuration" min="1" max="120" placeholder="Pomodoro (min)" aria-label="Pomodoro Duration">
-            <input type="number" id="shortBreakDuration" min="1" max="60" placeholder="Short Break (min)" aria-label="Short Break Duration">
-            <input type="number" id="longBreakDuration" min="1" max="60" placeholder="Long Break (min)" aria-label="Long Break Duration">
-            <button onclick="setCustomDurations()" aria-label="Set Durations">Apply</button>
-        </div>
-        <div class="advanced-options">
-            <label><input type="checkbox" id="autoStart" aria-label="Auto-start next session"> Auto-start next</label>
-            <label for="notifMsg" style="margin-left:10px;">Notification:</label>
-            <input type="text" id="notifMsg" maxlength="60" placeholder="Time's up!" aria-label="Notification Message" style="width:120px;">
-        </div>
-        <div class="stats-bar" aria-label="Session Stats">
-            <span id="statSessions">Sessions: 0</span>
-            <span id="statCycles">Cycles: 0</span>
-            <span id="statTime">Time: 0m</span>
-        </div>
-        <div id="quote" class="quote" aria-live="polite">Stay focused, stay productive!</div>
-    </div>
+    </main>
+    <script src="app.js"></script>
 </body>
