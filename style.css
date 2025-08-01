@@ -257,13 +257,6 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
     margin: 0 auto 10px auto;
     transition: width 0.2s, height 0.2s;
 }
-.progress-circle {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 10px auto;
-    transition: width 0.2s, height 0.2s;
-}
 .progress-circle .time {
     position: absolute;
     top: 50%;
@@ -276,6 +269,7 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
     text-align: center;
     letter-spacing: 2px;
     transition: font-size 0.2s;
+}
 .session-info {
     margin-bottom: 2px;
     font-size: 15px;
@@ -322,8 +316,6 @@ body.dark-mode .progress-info {
 body.dark-mode .advanced-options {
     color: var(--color-text-light);
 }
-/* --- Stats Bar --- */
-/* --- Stats Bar --- */
 .stats-bar {
     display: flex;
     justify-content: center;
@@ -334,19 +326,4 @@ body.dark-mode .advanced-options {
 }
 body.dark-mode .stats-bar {
     color: #e0e0e0;
-}
-    border-color: #69d5dd;
-    background: #23272b;
-}
-body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover {
-    background: #69d5dd;
-    color: #101214;
-}
-body.dark-mode .mode-buttons button {
-    border-color: #69d5dd;
-    color: #f5f7fa;
-    background: #23272b;
-}
-body.dark-mode .mode-buttons button:focus {
-    outline: 2px solid #69d5dd;
 }
