@@ -16,14 +16,16 @@
         }
         .timer {
             text-align: center;
-            background-color: #fff;
+            background-color: rgba(255,255,255,0.95);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
             transition: transform 0.3s;
+            min-width: 350px;
+            max-width: 95vw;
         }
         .timer:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
         .fullscreen {
             text-align: right;
@@ -34,7 +36,7 @@
             color: #333;
             font-weight: bold;
         }
-        .buttons button, .set-timer button {
+        .buttons button, .set-timer button, .custom-durations button {
             font-size: 14px;
             padding: 8px 20px;
             margin: 5px;
@@ -69,6 +71,22 @@
         }
         .set-timer button:hover {
             background-color: #69d5dd;
+        }
+        .custom-durations {
+            margin-bottom: 10px;
+        }
+        .custom-durations input {
+            width: 90px;
+            font-size: 13px;
+            padding: 6px;
+            margin: 0 2px 8px 2px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+        }
+        .custom-durations button {
+            background: #69d5dd;
+            color: #000;
+            font-weight: bold;
         }
         .mode-buttons {
             margin-bottom: 20px;
@@ -107,9 +125,99 @@
                 width: 80%;
             }
         }
+        body.bg-gradient {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+        body.bg-forest {
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+        }
+        body.bg-ocean {
+            background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+        }
+        body.bg-space {
+            background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+        }
+        body.dark-mode {
+            background: #181c1f !important;
+            color: #eee;
+        }
+        .settings-bar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+        .settings-bar button, .settings-bar select {
+            font-size: 18px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #222;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .settings-bar button:hover, .settings-bar select:hover {
+            background: #69d5dd;
+            color: #000;
+        }
+        .progress-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 10px auto;
+        }
+        .progress-circle .time {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            font-size: 48px;
+            color: #333;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        body.dark-mode .timer {
+            background: rgba(30,34,38,0.98);
+            color: #eee;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.38);
+        }
+        body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
+            background: #222;
+            color: #eee;
+        }
+        body.dark-mode .buttons button, body.dark-mode .set-timer button, body.dark-mode .custom-durations button {
+            color: #eee;
+            border-color: #eee;
+        }
+        body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover {
+            background: #69d5dd;
+            color: #000;
+        }
+        body.dark-mode .mode-buttons button {
+            border-color: #eee;
+            color: #eee;
+        }
+        body.dark-mode .mode-buttons button:focus {
+            outline: 2px solid #69d5dd;
+        }
     </style>
 </head>
 <body>
+    <div class="settings-bar">
+        <button onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Toggle Dark Mode">🌙</button>
+        <select id="bgSelect" onchange="changeBackground()" aria-label="Select Background">
+            <option value="gradient">Gradient</option>
+            <option value="forest">Forest</option>
+            <option value="ocean">Ocean</option>
+            <option value="space">Space</option>
+        </select>
+    </div>
     <div class="timer" aria-label="Pomodoro Timer">
         <div class="fullscreen">
             <img src="fullscreen-svgrepo-com.svg" onclick="toggleFullscreen()" width="20" height="20" alt="Toggle Fullscreen" tabindex="0" aria-label="Toggle Fullscreen">
@@ -119,10 +227,24 @@
             <button id="shortBreakBtn" onclick="switchMode('shortBreak')" aria-label="Short Break Mode">Short Break</button>
             <button id="longBreakBtn" onclick="switchMode('longBreak')" aria-label="Long Break Mode">Long Break</button>
         </div>
-        <div class="time" id="time" aria-live="polite">25:00</div>
+        <div class="custom-durations">
+            <input type="number" id="pomodoroDuration" min="1" max="120" placeholder="Pomodoro (min)" aria-label="Pomodoro Duration">
+            <input type="number" id="shortBreakDuration" min="1" max="60" placeholder="Short Break (min)" aria-label="Short Break Duration">
+            <input type="number" id="longBreakDuration" min="1" max="60" placeholder="Long Break (min)" aria-label="Long Break Duration">
+            <button onclick="setCustomDurations()" aria-label="Set Custom Durations">Set</button>
+        </div>
+        <div class="progress-circle">
+            <svg width="180" height="180">
+                <circle cx="90" cy="90" r="80" stroke="#eee" stroke-width="12" fill="none"/>
+                <circle id="progressBar" cx="90" cy="90" r="80" stroke="#69d5dd" stroke-width="12" fill="none" stroke-linecap="round" transform="rotate(-90 90 90)"/>
+            </svg>
+            <div class="time" id="time" aria-live="polite">25:00</div>
+        </div>
         <div class="progress" id="progress" style="margin-bottom:10px;"></div>
         <div class="buttons">
             <button onclick="startTimer()" aria-label="Start Timer">Start</button>
+            <button onclick="pauseTimer()" aria-label="Pause Timer">Pause</button>
+            <button onclick="resumeTimer()" aria-label="Resume Timer">Resume</button>
             <button onclick="stopTimer()" aria-label="Stop Timer">Stop</button>
             <button onclick="resetTimer()" aria-label="Reset Timer">Reset</button>
         </div>
@@ -132,16 +254,31 @@
         </div>
         <div id="sessionInfo" style="margin-top:15px; font-size:16px; color:#555;"></div>
     </div>
-
     <script>
-        // Default durations in seconds
-        const MODES = {
+        // --- Theme and Background ---
+        function changeBackground() {
+            const bg = document.getElementById('bgSelect').value;
+            let body = document.body;
+            body.classList.remove('bg-forest', 'bg-ocean', 'bg-space', 'bg-gradient');
+            if (bg === 'forest') body.classList.add('bg-forest');
+            else if (bg === 'ocean') body.classList.add('bg-ocean');
+            else if (bg === 'space') body.classList.add('bg-space');
+            else body.classList.add('bg-gradient');
+        }
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('darkModeBtn').textContent =
+                document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+
+        // --- Pomodoro Logic ---
+        let MODES = {
             pomodoro: { label: "Pomodoro", duration: 25 * 60 },
             shortBreak: { label: "Short Break", duration: 5 * 60 },
             longBreak: { label: "Long Break", duration: 15 * 60 }
         };
         let mode = 'pomodoro';
-        let timer, isRunning = false, timeLeft = MODES[mode].duration;
+        let timer, isRunning = false, isPaused = false, timeLeft = MODES[mode].duration;
         let sessionCount = 0, cycleCount = 0;
         const SESSIONS_PER_CYCLE = 4;
 
@@ -153,12 +290,14 @@
             shortBreak: document.getElementById('shortBreakBtn'),
             longBreak: document.getElementById('longBreakBtn')
         };
+        const progressBar = document.getElementById('progressBar');
 
         function updateTimeDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timeElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             updateProgress();
+            updateCircle();
         }
 
         function updateProgress() {
@@ -192,23 +331,37 @@
         function startTimer() {
             if (!isRunning) {
                 isRunning = true;
+                isPaused = false;
                 timer = setInterval(() => {
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        isRunning = false;
-                        playAlarm();
-                        handleSessionEnd();
-                    } else {
-                        timeLeft--;
-                        updateTimeDisplay();
+                    if (!isPaused) {
+                        if (timeLeft <= 0) {
+                            clearInterval(timer);
+                            isRunning = false;
+                            playAlarm();
+                            handleSessionEnd();
+                        } else {
+                            timeLeft--;
+                            updateTimeDisplay();
+                        }
                     }
                 }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+        }
+
+        function resumeTimer() {
+            if (isRunning && isPaused) {
+                isPaused = false;
             }
         }
 
         function stopTimer() {
             clearInterval(timer);
             isRunning = false;
+            isPaused = false;
         }
 
         function resetTimer() {
@@ -225,6 +378,17 @@
             } else {
                 alert('Please enter a valid number of minutes.');
             }
+        }
+
+        function setCustomDurations() {
+            const pomo = parseInt(document.getElementById('pomodoroDuration').value, 10);
+            const shortB = parseInt(document.getElementById('shortBreakDuration').value, 10);
+            const longB = parseInt(document.getElementById('longBreakDuration').value, 10);
+            if (pomo > 0) MODES.pomodoro.duration = pomo * 60;
+            if (shortB > 0) MODES.shortBreak.duration = shortB * 60;
+            if (longB > 0) MODES.longBreak.duration = longB * 60;
+            timeLeft = MODES[mode].duration;
+            updateTimeDisplay();
         }
 
         function handleSessionEnd() {
@@ -253,13 +417,21 @@
                 const audio = new Audio('alarm.mp3');
                 audio.play();
             } catch (e) {
-                // fallback
                 alert("Time's up!");
             }
-            // Visual notification
             if (Notification && Notification.permission === "granted") {
                 new Notification("Pomodoro Timer", { body: "Time's up!" });
             }
+        }
+
+        // Circular progress bar
+        function updateCircle() {
+            const total = MODES[mode].duration;
+            const percent = 1 - timeLeft / total;
+            const radius = 80;
+            const circumference = 2 * Math.PI * radius;
+            progressBar.setAttribute('stroke-dasharray', circumference);
+            progressBar.setAttribute('stroke-dashoffset', circumference * (1 - percent));
         }
 
         // Request notification permission on load
@@ -284,9 +456,23 @@
             localStorage.setItem('mode', mode);
             localStorage.setItem('sessionCount', sessionCount);
             localStorage.setItem('cycleCount', cycleCount);
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            localStorage.setItem('bgSelect', document.getElementById('bgSelect').value);
         });
 
         window.addEventListener('load', () => {
+            // Restore theme/background
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeBtn').textContent = '☀️';
+            }
+            if (localStorage.getItem('bgSelect')) {
+                document.getElementById('bgSelect').value = localStorage.getItem('bgSelect');
+                changeBackground();
+            } else {
+                document.body.classList.add('bg-gradient');
+            }
+            // Restore timer state
             if (localStorage.getItem('timeLeft')) {
                 timeLeft = parseInt(localStorage.getItem('timeLeft'), 10);
                 isRunning = localStorage.getItem('isRunning') === 'true';
@@ -307,4 +493,187 @@
         });
     </script>
 </body>
-</html>
+<style>
+    body.bg-gradient {
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    }
+    body.bg-forest {
+        background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+    }
+    body.bg-ocean {
+        background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+    }
+    body.bg-space {
+        background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+    }
+    body.dark-mode {
+        background: #181c1f !important;
+        color: #eee;
+    }
+    .settings-bar {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        display: flex;
+        gap: 10px;
+    }
+    .settings-bar button, .settings-bar select {
+        font-size: 18px;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: none;
+        background: #fff;
+        color: #222;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .settings-bar button:hover, .settings-bar select:hover {
+        background: #69d5dd;
+        color: #000;
+    }
+    .timer {
+        text-align: center;
+        background-color: rgba(255,255,255,0.95);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        transition: transform 0.3s;
+        min-width: 350px;
+        max-width: 95vw;
+    }
+    .timer:hover {
+        transform: scale(1.03);
+    }
+    .fullscreen {
+        text-align: right;
+    }
+    .progress-circle {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 10px auto;
+    }
+    .progress-circle .time {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -55%);
+        font-size: 48px;
+        color: #333;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+        letter-spacing: 2px;
+    }
+    .buttons button, .set-timer button, .custom-durations button {
+        font-size: 14px;
+        padding: 8px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        color: #0e0e0e;
+        transition: background-color 0.3s;
+    }
+    .buttons button {
+        background-color: transparent;
+        border: #0e0e0e solid 2px;
+        border-radius: 50px;
+    }
+    .buttons button:hover {
+        background-color: #69d5dd;
+        border: #69d5dd solid 2px;
+    }
+    .set-timer {
+        margin-top: 20px;
+    }
+    .set-timer input {
+        font-size: 16px;
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .set-timer button {
+        background-color: #000000;
+        color: white;
+    }
+    .set-timer button:hover {
+        background-color: #69d5dd;
+    }
+    .custom-durations {
+        margin-bottom: 10px;
+    }
+    .custom-durations input {
+        width: 90px;
+        font-size: 13px;
+        padding: 6px;
+        margin: 0 2px 8px 2px;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+    }
+    .custom-durations button {
+        background: #69d5dd;
+        color: #000;
+        font-weight: bold;
+    }
+    .mode-buttons {
+        margin-bottom: 20px;
+    }
+    .mode-buttons button {
+        font-size: 14px;
+        padding: 8px 18px;
+        margin: 0 5px 10px 5px;
+        border: none;
+        border-radius: 20px;
+        background: transparent;
+        border: 2px solid #0e0e0e;
+        transition: background 0.3s, color 0.3s;
+        cursor: pointer;
+    }
+    .mode-buttons button:focus {
+        outline: 2px solid #69d5dd;
+    }
+    body.dark-mode .timer {
+        background: rgba(30,34,38,0.98);
+        color: #eee;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.38);
+    }
+    body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
+        background: #222;
+        color: #eee;
+    }
+    body.dark-mode .buttons button, body.dark-mode .set-timer button, body.dark-mode .custom-durations button {
+        color: #eee;
+        border-color: #eee;
+    }
+    body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover {
+        background: #69d5dd;
+        color: #000;
+    }
+    body.dark-mode .mode-buttons button {
+        border-color: #eee;
+        color: #eee;
+    }
+    body.dark-mode .mode-buttons button:focus {
+        outline: 2px solid #69d5dd;
+    }
+    @media (orientation: landscape) {
+        body {
+            flex-direction: row;
+        }
+        .timer {
+            width: 50%;
+        }
+    }
+    @media (orientation: portrait) {
+        body {
+            flex-direction: column;
+        }
+        .timer {
+            width: 80%;
+        }
+    }
+</style>
