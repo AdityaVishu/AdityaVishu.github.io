@@ -240,8 +240,10 @@
             <option value="ocean">Ocean</option>
             <option value="space">Space</option>
         </select>
+        <button onclick="toggleSound()" id="soundBtn" aria-label="Toggle Sound">🔊</button>
     </div>
     <div class="timer" aria-label="Pomodoro Timer">
+        <div id="quote" style="font-size:1.1em;margin-bottom:10px;color:#69d5dd;font-weight:bold;"></div>
         <div class="fullscreen">
             <img src="fullscreen-svgrepo-com.svg" onclick="toggleFullscreen()" width="20" height="20" alt="Toggle Fullscreen" tabindex="0" aria-label="Toggle Fullscreen">
         </div>
@@ -292,6 +294,27 @@
             document.body.classList.toggle('dark-mode');
             document.getElementById('darkModeBtn').textContent =
                 document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+
+        // --- Sound Toggle ---
+        let soundOn = true;
+        function toggleSound() {
+            soundOn = !soundOn;
+            document.getElementById('soundBtn').textContent = soundOn ? '🔊' : '🔇';
+        }
+
+        // --- Motivational Quotes ---
+        const quotes = [
+            "Stay focused, stay productive!",
+            "Small steps every day!",
+            "You are doing great!",
+            "Breaks help your brain!",
+            "Keep going, you're almost there!",
+            "Discipline is the bridge between goals and accomplishment.",
+            "Success is the sum of small efforts repeated."
+        ];
+        function showRandomQuote() {
+            document.getElementById('quote').textContent = quotes[Math.floor(Math.random()*quotes.length)];
         }
 
         // --- Pomodoro Logic ---
@@ -436,11 +459,11 @@
         }
 
         function playAlarm() {
-            try {
-                const audio = new Audio('alarm.mp3');
-                audio.play();
-            } catch (e) {
-                alert("Time's up!");
+            if (soundOn) {
+                try {
+                    const audio = new Audio('alarm.mp3');
+                    audio.play();
+                } catch (e) {}
             }
             if (Notification && Notification.permission === "granted") {
                 new Notification("Pomodoro Timer", { body: "Time's up!" });
@@ -481,6 +504,7 @@
             localStorage.setItem('cycleCount', cycleCount);
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
             localStorage.setItem('bgSelect', document.getElementById('bgSelect').value);
+            localStorage.setItem('soundOn', soundOn);
         });
 
         window.addEventListener('load', () => {
@@ -513,26 +537,29 @@
                 updateSessionInfo();
                 highlightModeButton();
             }
+            // Restore sound
+            soundOn = localStorage.getItem('soundOn') !== 'false';
+            document.getElementById('soundBtn').textContent = soundOn ? '🔊' : '🔇';
         });
+        showRandomQuote();
     </script>
 </body>
 <style>
-    body.bg-gradient {
-        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-    }
-    body.bg-forest {
-        background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-    }
-    body.bg-ocean {
-        background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-    }
-    body.bg-space {
-        background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-    }
-    body.dark-mode {
-        background: #181c1f !important;
-        color: #eee;
-    }
+        body.bg-gradient {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2) !important;
+        }
+        body.bg-forest {
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
+        }
+        body.bg-ocean {
+            background: url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
+        }
+        body.bg-space {
+            background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat !important;
+        }
+        body.dark-mode {
+            color: #f5f7fa;
+        }
     .settings-bar {
         position: absolute;
         top: 20px;
