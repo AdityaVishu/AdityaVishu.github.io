@@ -41,10 +41,7 @@
                 <button id="resetBtn" aria-label="Reset" title="Reset">⟲</button>
                 <button id="skipBtn" aria-label="Skip" title="Skip Session">⏭️</button>
             </div>
-            <div class="set-timer">
-                <input type="number" id="minutes" min="1" max="120" placeholder="Custom (min)" aria-label="Custom Minutes">
-                <button id="setCustomBtn" aria-label="Set Custom Timer">Set</button>
-            </div>
+            <!-- Custom timer removed -->
             <div class="custom-durations">
                 <input type="number" id="pomodoroDuration" min="1" max="120" placeholder="Pomodoro (min)" aria-label="Pomodoro Duration">
                 <input type="number" id="shortBreakDuration" min="1" max="60" placeholder="Short Break (min)" aria-label="Short Break Duration">
@@ -53,8 +50,6 @@
             </div>
             <div class="advanced-options">
                 <label><input type="checkbox" id="autoStart" aria-label="Auto-start next session"> Auto-start next</label>
-                <label for="notifMsg" style="margin-left:10px;">Notification:</label>
-                <input type="text" id="notifMsg" maxlength="60" placeholder="Time's up!" aria-label="Notification Message" style="width:120px;">
             </div>
             <div class="stats-bar" aria-label="Session Stats">
                 <span id="statSessions">Sessions: 0</span>

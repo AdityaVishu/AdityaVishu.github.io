@@ -21,14 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const soundBtn = document.getElementById('soundBtn');
     const bgSelect = document.getElementById('bgSelect');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const setCustomBtn = document.getElementById('setCustomBtn');
     const setDurationsBtn = document.getElementById('setDurationsBtn');
-    const minutesInput = document.getElementById('minutes');
     const pomodoroDurationInput = document.getElementById('pomodoroDuration');
     const shortBreakDurationInput = document.getElementById('shortBreakDuration');
     const longBreakDurationInput = document.getElementById('longBreakDuration');
     const autoStartCheckbox = document.getElementById('autoStart');
-    const notifMsgInput = document.getElementById('notifMsg');
 
     // --- State ---
     let mode = 'pomodoro';
@@ -119,9 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (val === 'space') document.body.classList.add('bg-space');
     }
     function notify() {
-        const msg = notifMsgInput.value || "Time's up!";
         if (Notification.permission === 'granted') {
-            new Notification(msg);
+            new Notification("Time's up!");
         }
     }
 
@@ -208,16 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveState();
         highlightModeButton();
     }
-    function setCustomTimer() {
-        const min = parseInt(minutesInput.value);
-        if (!isNaN(min) && min > 0 && min <= 120) {
-            clearInterval(timer);
-            isRunning = false;
-            isPaused = false;
-            timeLeft = min * 60;
-            updateDisplay();
-        }
-    }
+    // Custom timer logic removed
     function setCustomDurations() {
         const p = parseInt(pomodoroDurationInput.value);
         const s = parseInt(shortBreakDurationInput.value);
@@ -265,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pomodoroBtn.addEventListener('click', () => switchMode('pomodoro'));
     shortBreakBtn.addEventListener('click', () => switchMode('shortBreak'));
     longBreakBtn.addEventListener('click', () => switchMode('longBreak'));
-    setCustomBtn.addEventListener('click', setCustomTimer);
+    // Custom timer event listener removed
     setDurationsBtn.addEventListener('click', setCustomDurations);
     darkModeBtn.addEventListener('click', toggleDarkMode);
     soundBtn.addEventListener('click', toggleSound);

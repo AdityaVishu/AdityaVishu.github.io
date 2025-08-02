@@ -14,16 +14,6 @@
     --color-border: #69d5dd;
     --color-quote: #69d5dd;
 }
-body {
-    font-family: 'Roboto', Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, var(--color-bg), var(--color-bg2) 80%, var(--color-bg3) 100%);
-    margin: 0;
-    transition: background 0.3s;
-}
 .timer {
     text-align: center;
     background-color: rgba(255,255,255,0.98);
@@ -75,7 +65,7 @@ body {
     border: var(--color-border) solid 2px;
     box-shadow: 0 0 0 2px var(--color-accent), 0 2px 8px rgba(0,0,0,0.10);
 }
-.set-timer button, .custom-durations button {
+.custom-durations button {
     background: var(--color-accent);
     color: #000;
     font-weight: bold;
@@ -85,7 +75,7 @@ body {
     transition: background 0.2s, color 0.2s;
     outline: none;
 }
-.set-timer button:hover, .custom-durations button:hover, .set-timer button:focus-visible, .custom-durations button:focus-visible {
+.custom-durations button:hover, .custom-durations button:focus-visible {
     background: #000;
     color: #fff;
     box-shadow: 0 0 0 2px var(--color-accent);
@@ -136,16 +126,6 @@ body.dark-mode .timer {
     color: var(--color-text-light);
     box-shadow: 0 4px 24px rgba(0,0,0,0.38);
 }
-body.dark-mode .buttons button, body.dark-mode .set-timer button, body.dark-mode .custom-durations button {
-    color: var(--color-text-light);
-    border-color: var(--color-border);
-    background: var(--color-dark);
-}
-body.dark-mode .buttons button:hover, body.dark-mode .set-timer button:hover, body.dark-mode .custom-durations button:hover, body.dark-mode .buttons button:focus-visible, body.dark-mode .set-timer button:focus-visible, body.dark-mode .custom-durations button:focus-visible {
-    background: var(--color-accent);
-    color: #101214;
-    box-shadow: 0 0 0 2px var(--color-accent);
-}
 body.dark-mode .mode-buttons button {
     background: var(--color-dark);
     color: var(--color-text-light);
@@ -158,7 +138,7 @@ body.dark-mode .mode-buttons button.active, body.dark-mode .mode-buttons button:
     outline: 2px solid var(--color-accent);
     box-shadow: 0 0 0 2px var(--color-accent);
 }
-/* Removed duplicate/old .set-timer, .custom-durations, .mode-buttons rules. See above for new modern rules. */
+/* --- End of button rules --- */
 @media (max-width: 600px) {
     body {
         flex-direction: column;
@@ -298,6 +278,7 @@ body.dark-mode .progress-info {
     transition: color 0.2s;
 }
 /* --- Advanced Options --- */
+/* --- Advanced Options --- */
 .advanced-options {
     display: flex;
     justify-content: center;
@@ -310,12 +291,6 @@ body.dark-mode .progress-info {
 .advanced-options input[type="checkbox"] {
     accent-color: var(--color-accent);
     margin-right: 3px;
-}
-.advanced-options input[type="text"] {
-    font-size: 13px;
-    padding: 3px 6px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
 }
 body.dark-mode .advanced-options {
     color: var(--color-text-light);
