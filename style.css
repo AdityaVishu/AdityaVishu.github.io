@@ -323,8 +323,9 @@ body.bg-space {
 .settings-bar {
     position: absolute;
     top: 18px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 18px;
+    left: unset;
+    transform: none;
     z-index: 10;
     display: flex;
     gap: 12px;
