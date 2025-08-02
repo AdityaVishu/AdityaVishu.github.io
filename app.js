@@ -12,9 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pomodoroBtn = document.getElementById('pomodoroBtn');
     const shortBreakBtn = document.getElementById('shortBreakBtn');
     const longBreakBtn = document.getElementById('longBreakBtn');
-    const startBtn = document.getElementById('startBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const resumeBtn = document.getElementById('resumeBtn');
+    const mainTimerBtn = document.getElementById('mainTimerBtn');
     const resetBtn = document.getElementById('resetBtn');
     const skipBtn = document.getElementById('skipBtn');
     const darkModeBtn = document.getElementById('darkModeBtn');
@@ -28,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const autoStartCheckbox = document.getElementById('autoStart');
 
     // --- State ---
+    // Button state
+    let mainBtnState = 'start'; // 'start', 'pause', 'resume'
     let mode = 'pomodoro';
     let durations = {
         pomodoro: 25,
@@ -79,6 +79,22 @@ document.addEventListener('DOMContentLoaded', () => {
         statCycles.textContent = `Cycles: ${cycleCount}`;
         statTime.textContent = `Time: ${totalMinutes}m`;
         progressInfo.textContent = isRunning ? 'Running...' : (isPaused ? 'Paused' : 'Stopped');
+        // Update main button icon and label
+        if (mainTimerBtn) {
+            if (!isRunning && !isPaused) {
+                mainBtnState = 'start';
+                mainTimerBtn.textContent = '▶️';
+                mainTimerBtn.title = 'Start';
+            } else if (isRunning) {
+                mainBtnState = 'pause';
+                mainTimerBtn.textContent = '⏸️';
+                mainTimerBtn.title = 'Pause';
+            } else if (isPaused) {
+                mainBtnState = 'resume';
+                mainTimerBtn.textContent = '⏵';
+                mainTimerBtn.title = 'Resume';
+            }
+        }
     }
     function showQuote() {
         quoteDisplay.textContent = quotes[Math.floor(Math.random() * quotes.length)];
@@ -126,52 +142,84 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Timer Logic ---
-    function startTimer() {
-        if (isRunning) return;
-        isRunning = true;
-        isPaused = false;
-        timer = setInterval(() => {
-            if (timeLeft > 0) {
-                timeLeft--;
-                updateDisplay();
-            } else {
-                clearInterval(timer);
-                isRunning = false;
-                sessionCount++;
-                totalMinutes += durations[mode];
-                if (soundOn) alarm.play();
-                notify();
-                showQuote();
-                if (mode === 'pomodoro') {
-                    if ((sessionCount % 4) === 0) {
-                        mode = 'longBreak';
-                        cycleCount++;
-                    } else {
-                        mode = 'shortBreak';
-                    }
+    function startOrPauseTimer() {
+        if (!isRunning && !isPaused) {
+            // Start
+            isRunning = true;
+            isPaused = false;
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
                 } else {
-                    mode = 'pomodoro';
+                    clearInterval(timer);
+                    isRunning = false;
+                    sessionCount++;
+                    totalMinutes += durations[mode];
+                    if (soundOn) alarm.play();
+                    notify();
+                    showQuote();
+                    if (mode === 'pomodoro') {
+                        if ((sessionCount % 4) === 0) {
+                            mode = 'longBreak';
+                            cycleCount++;
+                        } else {
+                            mode = 'shortBreak';
+                        }
+                    } else {
+                        mode = 'pomodoro';
+                    }
+                    timeLeft = durations[mode] * 60;
+                    updateDisplay();
+                    saveState();
+                    if (autoStartCheckbox.checked) {
+                        startOrPauseTimer();
+                    }
                 }
-                timeLeft = durations[mode] * 60;
-                updateDisplay();
-                saveState();
-                if (autoStartCheckbox.checked) {
-                    startTimer();
+            }, 1000);
+            updateDisplay();
+        } else if (isRunning) {
+            // Pause
+            clearInterval(timer);
+            isPaused = true;
+            isRunning = false;
+            updateDisplay();
+        } else if (isPaused) {
+            // Resume
+            isRunning = true;
+            isPaused = false;
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timer);
+                    isRunning = false;
+                    sessionCount++;
+                    totalMinutes += durations[mode];
+                    if (soundOn) alarm.play();
+                    notify();
+                    showQuote();
+                    if (mode === 'pomodoro') {
+                        if ((sessionCount % 4) === 0) {
+                            mode = 'longBreak';
+                            cycleCount++;
+                        } else {
+                            mode = 'shortBreak';
+                        }
+                    } else {
+                        mode = 'pomodoro';
+                    }
+                    timeLeft = durations[mode] * 60;
+                    updateDisplay();
+                    saveState();
+                    if (autoStartCheckbox.checked) {
+                        startOrPauseTimer();
+                    }
                 }
-            }
-        }, 1000);
-        updateDisplay();
-    }
-    function pauseTimer() {
-        if (!isRunning || isPaused) return;
-        clearInterval(timer);
-        isPaused = true;
-        updateDisplay();
-    }
-    function resumeTimer() {
-        if (!isPaused) return;
-        isPaused = false;
-        startTimer();
+            }, 1000);
+            updateDisplay();
+        }
     }
     function resetTimer() {
         clearInterval(timer);
@@ -248,9 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listeners ---
-    if (startBtn) startBtn.onclick = startTimer;
-    if (pauseBtn) pauseBtn.onclick = pauseTimer;
-    if (resumeBtn) resumeBtn.onclick = resumeTimer;
+    if (mainTimerBtn) mainTimerBtn.onclick = startOrPauseTimer;
     if (resetBtn) resetBtn.onclick = resetTimer;
     if (skipBtn) skipBtn.onclick = skipSession;
     if (pomodoroBtn) pomodoroBtn.onclick = () => switchMode('pomodoro');
