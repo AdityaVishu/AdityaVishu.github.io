@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
     const timeDisplay = document.getElementById('time');

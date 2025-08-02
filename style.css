@@ -20,8 +20,11 @@
     padding: 32px 24px 24px 24px;
     border-radius: 20px;
     box-shadow: 0 4px 24px var(--color-shadow);
-    width: 370px;
-    margin: 32px auto 0 auto;
+    width: 100%;
+    max-width: 370px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
     transition: box-shadow 0.2s, background 0.3s;
 }
 .timer:hover {
@@ -116,14 +119,14 @@
 }
 body.dark-mode {
     color: var(--color-text-light);
-    background: #101214 !important;
+    background: #101214; /* Remove !important */
     transition: background 0.3s;
 }
 body.dark-mode.bg-gradient,
 body.dark-mode.bg-forest,
 body.dark-mode.bg-ocean,
 body.dark-mode.bg-space {
-    background: #101214 !important;
+    background: inherit; /* Let custom backgrounds apply */
 }
 body.dark-mode .timer {
     background: rgba(30,34,38,0.98);
@@ -151,8 +154,11 @@ body.dark-mode .mode-buttons button.active, body.dark-mode .mode-buttons button:
     }
     .timer {
         width: 98vw;
+        max-width: 98vw;
         min-width: unset;
         padding: 12px 2vw 12px 2vw;
+        margin-left: auto;
+        margin-right: auto;
     }
     .progress-circle {
         width: 120px;
