@@ -386,14 +386,16 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
     left: 50%;
     transform: translate(-50%, -55%);
     font-size: 48px;
-    color: #ffffff;
+    color: #000000;
     font-weight: bold;
     width: 100%;
     text-align: center;
     letter-spacing: 2px;
     transition: font-size 0.2s;
 }
-
+.dark-mode .progress-circle .time {
+    color: #ffffff;
+}
 .session-info {
     margin-bottom: 8px;
     font-size: 18px;
