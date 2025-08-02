@@ -17,13 +17,11 @@
 .timer {
     text-align: center;
     background-color: rgba(255,255,255,0.98);
-    padding: 24px 12px 18px 12px;
-    border-radius: 18px;
+    padding: 32px 24px 24px 24px;
+    border-radius: 20px;
     box-shadow: 0 4px 24px var(--color-shadow);
-    min-width: 320px;
-    max-width: 98vw;
-    width: 350px;
-    margin: 0 auto;
+    width: 370px;
+    margin: 32px auto 0 auto;
     transition: box-shadow 0.2s, background 0.3s;
 }
 .timer:hover {
@@ -39,13 +37,13 @@
     font-weight: bold;
     letter-spacing: 2px;
     text-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    /* Removed invalid CSS line */
+
 }
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 12px 0 12px 0;
+    gap: 16px;
+    margin: 20px 0 20px 0;
 }
 .buttons button {
     background-color: var(--color-bg3);
@@ -65,6 +63,12 @@
     border: var(--color-border) solid 2px;
     box-shadow: 0 0 0 2px var(--color-accent), 0 2px 8px rgba(0,0,0,0.10);
 }
+.custom-durations {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 16px 0 8px 0;
+}
 .custom-durations button {
     background: var(--color-accent);
     color: #000;
@@ -81,10 +85,10 @@
     box-shadow: 0 0 0 2px var(--color-accent);
 }
 .mode-buttons {
-    margin-bottom: 10px;
+    margin-bottom: 18px;
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 14px;
 }
 .mode-buttons button {
     font-size: 20px;
@@ -189,15 +193,15 @@ body.bg-space {
 
 .settings-bar {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    top: 18px;
+    left: 18px;
     z-index: 10;
     display: flex;
-    gap: 6px;
+    gap: 10px;
     background: rgba(255,255,255,0.7);
-    border-radius: 12px;
-    padding: 4px 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    border-radius: 14px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
     align-items: center;
 }
 .settings-bar button, .settings-bar select {
@@ -238,7 +242,7 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
     position: relative;
     width: 180px;
     height: 180px;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 18px auto;
     transition: width 0.2s, height 0.2s;
 }
 .progress-circle .time {
@@ -255,26 +259,26 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
     transition: font-size 0.2s;
 }
 .session-info {
-    margin-bottom: 2px;
-    font-size: 15px;
+    margin-bottom: 8px;
+    font-size: 16px;
     font-weight: 500;
 }
 .progress-info {
-    margin-bottom: 6px;
-    font-size: 13px;
+    margin-bottom: 10px;
+    font-size: 14px;
     color: #888;
 }
 body.dark-mode .progress-info {
     color: #b0b0b0;
 }
 .quote {
-    margin-top: 10px;
-    font-size: 15px;
+    margin-top: 18px;
+    font-size: 16px;
     color: var(--color-quote);
     font-style: italic;
     min-height: 22px;
     text-align: center;
-    padding: 0 8px;
+    padding: 0 12px;
     transition: color 0.2s;
 }
 /* --- Advanced Options --- */
