@@ -101,8 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     function applyTheme() {
-        document.body.classList.toggle('dark-mode', darkMode);
-        darkModeBtn.textContent = darkMode ? '☀️' : '🌙';
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+        if (darkModeBtn) darkModeBtn.textContent = darkMode ? '☀️' : '🌙';
     }
     function applySoundIcon() {
         soundBtn.textContent = soundOn ? '🔊' : '🔇';
@@ -244,20 +248,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listeners ---
-    startBtn.addEventListener('click', startTimer);
-    pauseBtn.addEventListener('click', pauseTimer);
-    resumeBtn.addEventListener('click', resumeTimer);
-    resetBtn.addEventListener('click', resetTimer);
-    skipBtn.addEventListener('click', skipSession);
-    pomodoroBtn.addEventListener('click', () => switchMode('pomodoro'));
-    shortBreakBtn.addEventListener('click', () => switchMode('shortBreak'));
-    longBreakBtn.addEventListener('click', () => switchMode('longBreak'));
-    // Custom timer event listener removed
-    setDurationsBtn.addEventListener('click', setCustomDurations);
-    darkModeBtn.addEventListener('click', toggleDarkMode);
-    soundBtn.addEventListener('click', toggleSound);
-    bgSelect.addEventListener('change', changeBackground);
-    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    if (startBtn) startBtn.onclick = startTimer;
+    if (pauseBtn) pauseBtn.onclick = pauseTimer;
+    if (resumeBtn) resumeBtn.onclick = resumeTimer;
+    if (resetBtn) resetBtn.onclick = resetTimer;
+    if (skipBtn) skipBtn.onclick = skipSession;
+    if (pomodoroBtn) pomodoroBtn.onclick = () => switchMode('pomodoro');
+    if (shortBreakBtn) shortBreakBtn.onclick = () => switchMode('shortBreak');
+    if (longBreakBtn) longBreakBtn.onclick = () => switchMode('longBreak');
+    if (setDurationsBtn) setDurationsBtn.onclick = setCustomDurations;
+    if (darkModeBtn) darkModeBtn.onclick = function() {
+        darkMode = !darkMode;
+        applyTheme();
+        saveState();
+    };
+    if (soundBtn) soundBtn.onclick = toggleSound;
+    if (bgSelect) bgSelect.onchange = changeBackground;
+    if (fullscreenBtn) fullscreenBtn.onclick = toggleFullscreen;
 
     // --- Initialization ---
     loadState();
