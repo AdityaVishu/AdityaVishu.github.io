@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function saveState() {
         localStorage.setItem('pomodoroState', JSON.stringify({
-            durations, sessionCount, cycleCount, totalMinutes, autoStart, soundOn, darkMode
+            durations, sessionCount, cycleCount, totalMinutes, autoStart, soundOn, darkMode, bg: bgSelect.value
         }));
     }
     function loadState() {
@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             autoStart = state.autoStart || false;
             soundOn = state.soundOn !== undefined ? state.soundOn : true;
             darkMode = state.darkMode || false;
+            if (state.bg && bgSelect) bgSelect.value = state.bg;
         }
     }
     function applyTheme() {
@@ -133,10 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (val === 'forest') document.body.classList.add('bg-forest');
         if (val === 'ocean') document.body.classList.add('bg-ocean');
         if (val === 'space') document.body.classList.add('bg-space');
+        saveState(); // Save background change immediately
     }
     function notify() {
         if (Notification.permission === 'granted') {
-            new Notification("Time's up!");
+            new Notification("Time's up! Take a break!", {
+                body: `You completed a ${mode} session.`,   });
         }
     }
 
@@ -251,9 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
         isPaused = false;
         mode = newMode;
         timeLeft = durations[mode] * 60;
+        highlightModeButton();
         updateDisplay();
         saveState();
-        highlightModeButton();
     }
     // Custom timer logic removed
     function setCustomDurations() {
@@ -308,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveState();
     };
     if (soundBtn) soundBtn.onclick = toggleSound;
-    if (bgSelect) bgSelect.onchange = changeBackground;
+    if (bgSelect) bgSelect.onchange = applyBackground;
     if (fullscreenBtn) fullscreenBtn.onclick = toggleFullscreen;
 
     // --- Initialization ---

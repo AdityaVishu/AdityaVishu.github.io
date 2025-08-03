@@ -18,44 +18,62 @@
     --glass-dark-bg: rgba(30,34,38,0.92);
 }
 
+/* Make body and main fill viewport and prevent scrolling */
 body {
     min-height: 100vh;
+    height: 100vh;
     margin: 0;
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-    background: var(--color-bg);
+    background: linear-gradient(135deg, #e0e7ef 0%, #c3cfe2 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     transition: background 0.3s;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 main {
-    width: 100%;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
 }
 
 .timer {
     text-align: center;
     background: var(--glass-bg);
-    backdrop-filter: blur(12px) saturate(1.2);
-    -webkit-backdrop-filter: blur(12px) saturate(1.2);
-    padding: 32px 24px 24px 24px;
+    box-shadow: 0 8px 32px 0 rgba(105,213,221,0.18), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+    border: 1.5px solid var(--color-border);
+    padding: 32px 18px 24px 18px;
     border-radius: 28px;
-    box-shadow: 0 8px 32px var(--color-shadow);
-    width: 100%;
+    width: 95vw;
     max-width: 400px;
-    margin: 48px auto 0 auto;
+    min-width: 280px;
+    margin: 0 auto;
     transition: box-shadow 0.2s, background 0.3s, max-width 0.2s;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    position: relative;
 }
 
 .timer:hover {
-    box-shadow: 0 12px 40px var(--color-shadow-hover);
+    box-shadow: 0 16px 48px var(--color-shadow-hover), 0 2px 12px var(--color-accent2);
+    border-color: var(--color-accent2);
 }
 
 .fullscreen {
@@ -63,8 +81,8 @@ main {
 }
 
 .time {
-    font-size: 72px;
-    margin-bottom: 20px;
+    font-size: 8vw;
+    margin-bottom: 2vw;
     color: var(--color-text);
     font-weight: 700;
     letter-spacing: 2px;
@@ -75,26 +93,26 @@ main {
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 18px;
-    margin: 24px 0 24px 0;
+    align-items: center;
+    gap: 16px;
+    margin: 18px 0 18px 0;
+    width: 100%;
 }
 
 .buttons button {
-    background: linear-gradient(135deg, var(--color-bg3), var(--color-accent));
-    border: var(--color-border) solid 2px;
-    border-radius: 14px;
-    color: var(--color-text);
-    font-size: 26px;
-    width: 64px;
-    height: 52px;
-    margin: 0 2px;
+    font-size: 22px;
+    width: 54px;
+    height: 44px;
+    margin: 0;
+    border-radius: 12px;
     transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s, transform 0.1s;
     outline: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: linear-gradient(135deg, var(--color-bg3) 60%, var(--color-accent) 100%);
 }
 
 .buttons button:hover, .buttons button:focus-visible {
-    background: linear-gradient(135deg, var(--color-accent2), var(--color-accent));
+    background: linear-gradient(135deg, var(--color-accent2) 60%, var(--color-accent) 100%);
     color: #fff;
     border: var(--color-border) solid 2px;
     box-shadow: 0 0 0 2px var(--color-accent), 0 2px 12px rgba(0,0,0,0.12);
@@ -104,17 +122,19 @@ main {
 .custom-durations {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin: 18px 0 10px 0;
+    margin: 12px 0 8px 0;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .custom-durations input[type="number"] {
-    width: 110px;
-    padding: 10px 12px;
+    width: 90px;
+    padding: 8px 10px;
+    font-size: 15px;
     border-radius: 7px;
-    border: 1px solid var(--color-border);
-    font-size: 17px;
+    border: 1.5px solid var(--color-border);
     background: var(--color-bg3);
     color: var(--color-text);
     margin-bottom: 4px;
@@ -128,43 +148,42 @@ main {
 }
 
 .custom-durations button {
-    background: linear-gradient(135deg, var(--color-accent2), var(--color-accent));
-    color: #fff;
-    font-weight: bold;
+    padding: 8px 18px;
+    font-size: 15px;
     border-radius: 7px;
     border: none;
-    padding: 10px 22px;
-    font-size: 17px;
     transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
     outline: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .custom-durations button:hover, .custom-durations button:focus-visible {
-    background: #000;
+    background: linear-gradient(135deg, #23272b 60%, #101214 100%);
     color: #fff;
     box-shadow: 0 0 0 2px var(--color-accent);
     transform: scale(1.05);
 }
 
 .mode-buttons {
-    margin-bottom: 22px;
+    margin-bottom: 18px;
     display: flex;
     justify-content: center;
-    gap: 18px;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
 }
 
 .mode-buttons button {
     font-size: 24px;
-    padding: 8px 0;
-    margin: 0 2px 10px 2px;
-    border: 2px solid var(--color-border);
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-bg3), var(--color-bg2));
-    color: var(--color-text);
-    transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s, transform 0.1s;
     width: 54px;
     height: 54px;
+    padding: 0;
+    margin: 0;
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-bg3) 60%, var(--color-bg2) 100%);
+    color: var(--color-text);
+    transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s, transform 0.1s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,7 +193,7 @@ main {
 }
 
 .mode-buttons button.active, .mode-buttons button:focus-visible {
-    background: linear-gradient(135deg, var(--color-accent2), var(--color-accent));
+    background: linear-gradient(135deg, var(--color-accent2) 60%, var(--color-accent) 100%);
     color: #fff;
     border-color: var(--color-border);
     outline: 2px solid var(--color-accent);
@@ -201,7 +220,7 @@ body.dark-mode .mode-buttons button {
 }
 
 body.dark-mode .mode-buttons button.active, body.dark-mode .mode-buttons button:focus-visible {
-    background: linear-gradient(135deg, var(--color-accent2), var(--color-accent));
+    background: linear-gradient(135deg, var(--color-accent2) 60%, var(--color-accent) 100%);
     color: #101214;
     border-color: var(--color-border);
     outline: 2px solid var(--color-accent);
@@ -220,83 +239,64 @@ body.dark-mode.bg-space {
 @media (max-width: 900px) {
     .timer {
         max-width: 98vw;
-        margin-top: 24px;
-        padding: 18px 2vw 18px 2vw;
+        padding: 18px 2vw;
     }
     .progress-circle {
-        width: 140px;
-        height: 140px;
-    }
-    .time {
-        font-size: 48px;
+        width: 120px;
+        height: 120px;
     }
     .mode-buttons button, .buttons button {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+    .custom-durations input[type="number"] {
+        width: 70px;
+        font-size: 13px;
+        padding: 6px 8px;
+    }
+    .custom-durations button {
+        padding: 6px 12px;
+        font-size: 13px;
     }
 }
 
 @media (max-width: 600px) {
-    body {
-        flex-direction: column;
-        align-items: center;
-        padding: 0 2vw;
-    }
     .timer {
         width: 98vw;
         max-width: 98vw;
         min-width: unset;
-        padding: 14px 2vw 14px 2vw;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 12px;
-        border-radius: 18px;
+        padding: 12px 2vw;
+        margin: 0 auto;
+        border-radius: 16px;
     }
     .progress-circle {
-        width: 100px;
-        height: 100px;
-    }
-    .time {
-        font-size: 32px;
-    }
-    .mode-buttons {
-        gap: 10px;
+        width: 90px;
+        height: 90px;
+        min-width: 70px;
+        min-height: 70px;
     }
     .mode-buttons button, .buttons button {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
     }
     .custom-durations input[type="number"] {
-        width: 80px;
-        font-size: 15px;
-        padding: 7px 8px;
+        width: 50px;
+        font-size: 11px;
+        padding: 4px 6px;
     }
     .custom-durations button {
-        padding: 8px 14px;
-        font-size: 15px;
+        padding: 4px 8px;
+        font-size: 11px;
     }
 }
 
-@media (orientation: landscape) {
-    body {
-        flex-direction: row;
-    }
-    .timer {
-        width: 60vw;
-        max-width: 500px;
-    }
-}
-
-@media (orientation: portrait) {
-    body {
-        flex-direction: column;
-    }
-    .timer {
-        width: 90vw;
-        max-width: 98vw;
-    }
+/* Hide scrollbars and prevent scrolling */
+html, body {
+    overflow: hidden !important;
+    height: 100vh;
+    max-height: 100vh;
 }
 
 body.bg-gradient {
@@ -322,27 +322,25 @@ body.bg-space {
 
 .settings-bar {
     position: absolute;
-    top: 18px;
-    right: 18px;
-    left: unset;
-    transform: none;
+    top: 16px;
+    right: 16px;
     z-index: 10;
     display: flex;
-    gap: 12px;
+    gap: 10px;
     background: rgba(255,255,255,0.7);
-    border-radius: 16px;
-    padding: 10px 20px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    border-radius: 14px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 16px rgba(105,213,221,0.10);
     align-items: center;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 }
 
 .settings-bar button, .settings-bar select {
-    font-size: 20px;
-    padding: 6px 14px;
-    border-radius: 8px;
-    border: none;
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    border: 1.5px solid var(--color-border);
     background: var(--color-light);
     color: var(--color-text);
     box-shadow: none;
@@ -352,14 +350,14 @@ body.bg-space {
 }
 
 .settings-bar button:hover, .settings-bar select:hover, .settings-bar button:focus-visible, .settings-bar select:focus-visible {
-    background: var(--color-accent);
+    background: linear-gradient(135deg, var(--color-accent2) 60%, var(--color-accent) 100%);
     color: #000;
     box-shadow: 0 0 0 2px var(--color-accent);
 }
 
 .settings-bar select {
-    min-width: 90px;
-    font-size: 16px;
+    min-width: 80px;
+    font-size: 15px;
 }
 
 body.dark-mode .settings-bar {
@@ -380,39 +378,52 @@ body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:h
 
 .progress-circle {
     position: relative;
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 18px auto;
+    width: 160px;
+    height: 160px;
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 180px;
+    max-height: 180px;
+    margin: 0 auto 16px auto;
     transition: width 0.2s, height 0.2s;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(105,213,221,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .progress-circle .time {
+    font-size: 38px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -55%);
-    font-size: 48px;
     color: #000000;
     font-weight: bold;
     width: 100%;
     text-align: center;
     letter-spacing: 2px;
     transition: font-size 0.2s;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    pointer-events: none;
 }
 .dark-mode .progress-circle .time {
     color: #ffffff;
 }
 .session-info {
-    margin-bottom: 8px;
-    font-size: 18px;
+    margin-bottom: 6px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--color-accent2);
     letter-spacing: 1px;
+    text-shadow: 0 1px 4px rgba(105,213,221,0.10);
 }
 
 .progress-info {
-    margin-bottom: 12px;
-    font-size: 15px;
+    margin-bottom: 10px;
+    font-size: 13px;
     color: #888;
 }
 
@@ -421,48 +432,165 @@ body.dark-mode .progress-info {
 }
 
 .quote {
-    margin-top: 22px;
-    font-size: 18px;
+    margin-top: 16px;
+    font-size: 16px;
     color: var(--color-quote);
     font-style: italic;
     min-height: 22px;
     text-align: center;
     padding: 0 16px;
     transition: color 0.2s;
+    text-shadow: 0 1px 4px rgba(105,213,221,0.10);
+    width: 100%;
 }
 
 .advanced-options {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    margin: 6px 0 12px 0;
+    gap: 10px;
+    font-size: 13px;
+    margin: 4px 0 10px 0;
     color: #333;
+    width: 100%;
+}
+.dark-mode .advanced-options {
+    color: #ccc;
+}
+/* Settings bar */
+.settings-bar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 14px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 16px rgba(105,213,221,0.10);
+    align-items: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-.advanced-options input[type="checkbox"] {
-    accent-color: var(--color-accent);
-    margin-right: 5px;
-    width: 18px;
-    height: 18px;
+.settings-bar button, .settings-bar select {
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-light);
+    color: var(--color-text);
+    box-shadow: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    outline: none;
 }
 
-body.dark-mode .advanced-options {
+.settings-bar button:hover, .settings-bar select:hover, .settings-bar button:focus-visible, .settings-bar select:focus-visible {
+    background: linear-gradient(135deg, var(--color-accent2) 60%, var(--color-accent) 100%);
+    color: #000;
+    box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.settings-bar select {
+    min-width: 80px;
+    font-size: 15px;
+}
+
+body.dark-mode .settings-bar {
+    background: rgba(24,28,31,0.95);
+}
+
+body.dark-mode .settings-bar button, body.dark-mode .settings-bar select {
+    background: var(--color-dark);
     color: var(--color-text-light);
+    border: 1px solid #444;
 }
 
-.stats-bar {
+body.dark-mode .settings-bar button:hover, body.dark-mode .settings-bar select:hover, body.dark-mode .settings-bar button:focus-visible, body.dark-mode .settings-bar select:focus-visible {
+    background: var(--color-accent);
+    color: #101214;
+    box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.progress-circle {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 180px;
+    max-height: 180px;
+    margin: 0 auto 16px auto;
+    transition: width 0.2s, height 0.2s;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(105,213,221,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-circle .time {
+    font-size: 38px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    color: #000000;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 2px;
+    transition: font-size 0.2s;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    pointer-events: none;
+}
+.dark-mode .progress-circle .time {
+    color: #ffffff;
+}
+.session-info {
+    margin-bottom: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-accent2);
+    letter-spacing: 1px;
+    text-shadow: 0 1px 4px rgba(105,213,221,0.10);
+}
+
+.progress-info {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #888;
+}
+
+body.dark-mode .progress-info {
+    color: #b0b0b0;
+}
+
+.quote {
+    margin-top: 16px;
+    font-size: 16px;
+    color: var(--color-quote);
+    font-style: italic;
+    min-height: 22px;
+    text-align: center;
+    padding: 0 16px;
+    transition: color 0.2s;
+    text-shadow: 0 1px 4px rgba(105,213,221,0.10);
+    width: 100%;
+}
+
+.advanced-options {
     display: flex;
     justify-content: center;
-    gap: 18px;
-    font-size: 15px;
-    margin: 6px 0 12px 0;
-    color: #444;
-}
-
-body.dark-mode .stats-bar {
-    color: #e0e0e0;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    margin: 4px 0 10px 0;
+    color: #333;
+    width: 100%;
 }
 
 /* Add smooth transitions for all elements */

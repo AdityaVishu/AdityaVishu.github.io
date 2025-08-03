@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pomodoro Timer</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -21,12 +21,12 @@
     <main>
         <div class="timer" aria-label="Pomodoro Timer">
             <div class="mode-buttons" role="group" aria-label="Timer Modes">
-                <button id="pomodoroBtn" aria-label="Pomodoro">🍅</button>
+                <button id="pomodoroBtn" aria-label="Pomodoro" class="active">🍅</button>
                 <button id="shortBreakBtn" aria-label="Short Break">☕</button>
                 <button id="longBreakBtn" aria-label="Long Break">🛌</button>
             </div>
             <div class="progress-circle">
-                <svg width="180" height="180">
+                <svg width="100%" height="100%" viewBox="0 0 180 180" preserveAspectRatio="xMidYMid meet">
                     <circle cx="90" cy="90" r="80" stroke="#69d5dd" stroke-width="10" fill="none"/>
                     <circle id="progressBar" cx="90" cy="90" r="80" stroke="#0e0e0e" stroke-width="10" fill="none" stroke-linecap="round"/>
                 </svg>
@@ -39,7 +39,6 @@
                 <button id="resetBtn" aria-label="Reset" title="Reset">⟲</button>
                 <button id="skipBtn" aria-label="Skip" title="Skip Session">⏭️</button>
             </div>
-            <!-- Custom timer removed -->
             <div class="custom-durations">
                 <input type="number" id="pomodoroDuration" min="1" max="120" placeholder="Pomodoro (min)" aria-label="Pomodoro Duration">
                 <input type="number" id="shortBreakDuration" min="1" max="60" placeholder="Short Break (min)" aria-label="Short Break Duration">
@@ -59,4 +58,5 @@
     </main>
     <script src="app.js"></script>
 </body>
+</html>
 </html>
